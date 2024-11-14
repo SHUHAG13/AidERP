@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { AuthenticationService } from '../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
+import { AuthenticationService } from '../../../../services/auth.service';
+import { AuthfakeauthenticationService } from '../../../../services/authfake.service';
 // import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { LanguageService } from '../../core/services/language.service';
+import { LanguageService } from '../../../../services/language.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 
-import { EventService } from '../../core/services/event.service';
+import { EventService } from '../../../../services/event.service';
 
 import { SIDEBAR_TYPE } from "../layouts.model";
 import { RightsidebarComponent } from '../rightsidebar/rightsidebar.component';

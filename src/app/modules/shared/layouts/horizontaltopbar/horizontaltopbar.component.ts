@@ -1,11 +1,11 @@
 import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { Router, NavigationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { LanguageService } from '../../core/services/language.service';
+import { LanguageService } from '../../../../services/language.service';
 
-import { EventService } from '../../core/services/event.service';
-import { AuthenticationService } from '../../core/services/auth.service';
-import { AuthfakeauthenticationService } from '../../core/services/authfake.service';
+import { EventService } from '../../../../services/event.service';
+import { AuthenticationService } from '../../../../services/auth.service';
+import { AuthfakeauthenticationService } from '../../../../services/authfake.service';
 
 import { CommonModule, DOCUMENT } from '@angular/common';
 
@@ -43,7 +43,7 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
   ];
 
   // tslint:disable-next-line: max-line-length
-  constructor(@Inject(DOCUMENT) private document: any, private router: Router, private eventService: EventService, private authService: AuthenticationService,
+  constructor( @Inject(DOCUMENT) private document: any, private router: Router, private eventService: EventService, private authService: AuthenticationService,
     private authFackservice: AuthfakeauthenticationService,
     public languageService: LanguageService,
     // tslint:disable-next-line: variable-name

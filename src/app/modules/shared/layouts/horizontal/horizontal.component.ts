@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { TOPBAR } from "../layouts.model";
-import { EventService } from '../../core/services/event.service';
+import { EventService } from '../../../../services/event.service';
 import { HorizontaltopbarComponent } from '../horizontaltopbar/horizontaltopbar.component';
 import { RightsidebarComponent } from '../rightsidebar/rightsidebar.component';
 import { FooterComponent } from '../footer/footer.component';
