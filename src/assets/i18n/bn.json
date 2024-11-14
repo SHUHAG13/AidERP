@@ -1,0 +1,161 @@
+{
+    "HEADER": {
+      "SEARCH": "অনুসন্ধান...",
+      "MEGA_MENU": "মেগা মেনু",
+      "NOTIFICATIONS": {
+        "TITLE": "বিজ্ঞপ্তি",
+        "VIEW_ALL": "সব দেখুন",
+        "LOAD_MORE": "আরো দেখুন...",
+        "FIRST": {
+          "TITLE": "আপনার অর্ডার সম্পন্ন হয়েছে",
+          "TEXT": "যদি বিভিন্ন ভাষা ব্যাকরণকে মিলিত করে",
+          "TIME": "৩ মিনিট আগে"
+        },
+        "SECOND": {
+          "TITLE": "জেমস লেমায়ার",
+          "TEXT": "এটি সহজ ইংরেজির মতো মনে হবে।",
+          "TIME": "১ ঘন্টা আগে"
+        },
+        "THIRD": {
+          "TITLE": "আপনার আইটেমটি পাঠানো হয়েছে",
+          "TEXT": "যদি বিভিন্ন ভাষা ব্যাকরণকে মিলিত করে",
+          "TIME": "৩ মিনিট আগে"
+        },
+        "FOUR": {
+          "TITLE": "সালেনা লেফিল্ড",
+          "TEXT": "আমার একজন বন্ধুর মত এটি সহজ মনে হবে।",
+          "TIME": "১ ঘন্টা আগে"
+        }
+      },
+      "SETTINGS": "সেটিংস",
+      "UI": {
+        "TITLE": "ইউআই উপাদান",
+        "LIGHTBOX": "লাইটবক্স",
+        "RANGE_SLIDER": "রেঞ্জ স্লাইডার",
+        "SWEET_ALERT": "মিষ্টি সতর্কতা",
+        "RATING": "রেটিং",
+        "FORMS": "ফর্ম",
+        "TABLES": "টেবিল",
+        "CHARTS": "চার্ট"
+      },
+      "APPLICATIONS": {
+        "TITLE": "অ্যাপ্লিকেশন",
+        "ECOMMERCE": "ই-কমার্স",
+        "CALENDAR": "ক্যালেন্ডার",
+        "EMAIL": "ইমেইল",
+        "PROJECTS": "প্রকল্প",
+        "TASKS": "কার্যসমূহ",
+        "CONTACTS": "পরিচিতি"
+      },
+      "EXTRA_PAGES": {
+        "TITLE": "অতিরিক্ত পৃষ্ঠা",
+        "LIGHT_SIDEBAR": "হালকা সাইডবার",
+        "COMPACT_SIDEBAR": "কমপ্যাক্ট সাইডবার",
+        "HORIZONTAL_LAYOUT": "অনুভূমিক বিন্যাস",
+        "MAINTENANCE": "রক্ষণাবেক্ষণ",
+        "COMING SOON": "শীঘ্রই আসছে",
+        "TIMELINE": "টাইমলাইন",
+        "FAQ": "প্রশ্নাবলী"
+      },
+      "LOGIN": {
+        "PROFILE": "প্রোফাইল",
+        "MY_WALLET": "আমার মানিব্যাগ",
+        "SETTINGS": "সেটিংস",
+        "LOCK_SCREEN": "লক স্ক্রিন",
+        "LOGOUT": "লগআউট"
+      }
+    },
+    "MENUITEMS": {
+      "MENU": {
+        "TEXT": "মেনু"
+      },
+      "DASHBOARDS": {
+        "TEXT": "ড্যাশবোর্ড",
+        "BADGE": "০৪",
+        "LIST": {
+          "DEFAULT": "ডিফল্ট",
+          "SAAS": "সাস",
+          "CRYPTO": "ক্রিপ্টো",
+          "BLOG": "ব্লগ"
+        }
+      },
+      "LAYOUTS": {
+        "TEXT": "বিন্যাস",
+        "LIST": {
+          "HORIZONTAL": "অনুভূমিক",
+          "LIGHTSIDEBAR": "হালকা সাইডবার",
+          "COMPACTSIDEBAR": "কমপ্যাক্ট সাইডবার",
+          "ICONSIDEBAR": "আইকন সাইডবার",
+          "BOXED": "বক্সড বিন্যাস",
+          "COLOREDSIDEBAR": "রঙিন সাইডবার",
+          "VERTICAL": "উল্লম্ব",
+          "LIGHTTOPBAR": "হালকা টপবার",
+          "COLOREDHEADER": "রঙিন হেডার",
+          "SCROLLABLE": "স্ক্রলযোগ্য"
+        }
+      },
+      "APPS": {
+        "TEXT": "অ্যাপস"
+      },
+      "CALENDAR": {
+        "TEXT": "ক্যালেন্ডার"
+      },
+      "CHAT": {
+        "TEXT": "চ্যাট",
+        "BADGE": "নতুন"
+      },
+      "FILEMANAGER": {
+        "TEXT": "ফাইল ম্যানেজার",
+        "BADGE": "নতুন"
+      },
+      "ECOMMERCE": {
+        "TEXT": "ই-কমার্স",
+        "LIST": {
+          "PRODUCTS": "পণ্য",
+          "PRODUCTDETAIL": "পণ্যের বিবরণ",
+          "ORDERS": "অর্ডার",
+          "CUSTOMERS": "গ্রাহকরা",
+          "CART": "কার্ট",
+          "CHECKOUT": "চেকআউট",
+          "SHOPS": "দোকান",
+          "ADDPRODUCT": "পণ্য যোগ করুন"
+        }
+      },
+      "CRYPTO": {
+        "TEXT": "ক্রিপ্টো",
+        "LIST": {
+          "WALLET": "মানিব্যাগ",
+          "BUY/SELL": "কিনুন/বিক্রি",
+          "EXCHANGE": "বিনিময়",
+          "LENDING": "ঋণ",
+          "ORDERS": "অর্ডার",
+          "KYCAPPLICATION": "কেওয়াইসি আবেদন",
+          "ICOLANDING": "আইসিও ল্যান্ডিং"
+        }
+      },
+      "EMAIL": {
+        "TEXT": "ইমেইল",
+        "LIST": {
+          "INBOX": "ইনবক্স",
+          "READEMAIL": "ইমেইল পড়ুন",
+          "TEMPLATE": {
+            "BADGE": "নতুন",
+            "TEXT": "টেমপ্লেট",
+            "LIST": {
+              "BASIC": "বেসিক অ্যাকশন",
+              "ALERT": "সতর্কতা ইমেইল",
+              "BILLING": "বিলিং ইমেইল"
+            }
+          }
+        }
+      },
+      "INVOICES": {
+        "TEXT": "চালান",
+        "LIST": {
+          "INVOICELIST": "চালান তালিকা",
+          "INVOICEDETAIL": "চালানের বিবরণ"
+        }
+      }
+    }
+  }
+  
