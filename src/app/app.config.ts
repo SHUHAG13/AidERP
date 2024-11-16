@@ -1,21 +1,25 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';  // Loader for loading translation files
 import { HttpClient } from '@angular/common/http';
+import { JwtModule } from '@auth0/angular-jwt';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+
+export function tokenGetter(){
+return localStorage.getItem('token');
 }
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
-    provideHttpClient(),
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {
@@ -25,5 +29,17 @@ export const appConfig: ApplicationConfig = {
         }
       })
     ),
-    RouterModule]
+    importProvidersFrom(
+      JwtModule.forRoot({
+        config: {
+          tokenGetter: tokenGetter,
+          allowedDomains: [],
+          disallowedRoutes: [],
+        },
+      })
+    ),
+    provideHttpClient(
+      withInterceptorsFromDi()
+    )
+  ]
 };
