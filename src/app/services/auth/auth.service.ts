@@ -23,6 +23,10 @@ export class AuthService {
     return token != null && !this.jwtHelper.isTokenExpired(token);
   }
 
+  getAuthStatus(): boolean {
+    return this.isAuthenticated()
+  }
+
   login(user : User) {
     this.masterService.post('login',user);
   }
@@ -31,11 +35,6 @@ export class AuthService {
     localStorage.removeItem('token')
     this.router.navigate(['/login']);
   }
-
-  getAuthStatus(): boolean {
-    return this.isAuthenticated()
-  }
-
   // refresh token
 
   async tryRefreshingTokens(): Promise<boolean> {
@@ -76,7 +75,7 @@ export class AuthService {
           });
       }
     );
-    localStorage.setItem('jwtToken', refreshRes.token);
+    localStorage.setItem('token', refreshRes.token);
     localStorage.setItem('refreshToken', refreshRes.refreshToken);
     isRefreshSuccess = true;
     return isRefreshSuccess;
