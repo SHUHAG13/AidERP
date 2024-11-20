@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../core/models/auth.models';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MasterService } from '../common/master.service';
 import { Router } from '@angular/router';
 import { AuthenticatedResponse } from '../../core/models/auth/authenticated-response';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Login } from '../../core/models/auth/login';
+import { CustomResponse } from '../../core/models/common/response';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
+    console.log(token);
     return token != null && !this.jwtHelper.isTokenExpired(token);
   }
 
@@ -27,8 +29,8 @@ export class AuthService {
     return this.isAuthenticated()
   }
 
-  login(user : User) {
-    this.masterService.post('login',user);
+  login(user : Login) {
+    return this.masterService.post<CustomResponse>('Auth/Login',user);
   }
 
   logout() {
@@ -39,45 +41,40 @@ export class AuthService {
 
   async tryRefreshingTokens(): Promise<boolean> {
 
-    const jwt: any = localStorage.getItem('token');
-    const refreshToken: any = localStorage.getItem('refreshToken');
-    if (!jwt || !refreshToken) {
+    try{
+      const jwt: any = localStorage.getItem('token');
+      const refreshToken: any = localStorage.getItem('refreshToken');
+      if (!jwt || !refreshToken) { return false; }
+
+      const credentials = JSON.stringify({
+        accessToken: jwt,
+        refreshToken: refreshToken,
+      });
+
+      let isRefreshSuccess: boolean;
+
+      const refreshRes = await new Promise<CustomResponse>(
+        (resolve, reject) => {
+          this.masterService.post<CustomResponse>('Auth/RefreshToken', credentials)
+          .subscribe({
+              next: (res: CustomResponse) => {
+                res.success ? resolve(res) : reject({ message: res.message });
+              },
+              error: (e) => {
+                reject({ message: e.error.message, error: e })
+              },
+            });
+        }
+      );
+      
+      isRefreshSuccess = true;
+      localStorage.setItem('token', refreshRes.data.token);
+      localStorage.setItem('refreshToken', refreshRes.data.refreshToken);
+      return isRefreshSuccess;
+    }
+    catch(error : any){
+      console.error('Error occurred:', error.message);
       return false;
     }
-
-    const credentials = JSON.stringify({
-      accessToken: jwt,
-      refreshToken: refreshToken,
-    });
-    let isRefreshSuccess: boolean;
-
-    const refreshRes = await new Promise<AuthenticatedResponse>(
-      (resolve, reject) => {
-        this.http
-          .post<AuthenticatedResponse>(
-            'https://localhost:7140/api/token/refresh',
-            credentials,
-            {
-              headers: new HttpHeaders({
-                'Content-Type': 'application/json',
-              }),
-            }
-          )
-          .subscribe({
-            next: (res: AuthenticatedResponse) => {
-              resolve(res);
-              console.log(res);
-            },
-            error: (e) => {
-              reject;
-              isRefreshSuccess = false;
-            },
-          });
-      }
-    );
-    localStorage.setItem('token', refreshRes.token);
-    localStorage.setItem('refreshToken', refreshRes.refreshToken);
-    isRefreshSuccess = true;
-    return isRefreshSuccess;
   }
 }

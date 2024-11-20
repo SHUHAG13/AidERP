@@ -11,6 +11,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
     return true;
   }
   const isRefreshSuccess = await authService.tryRefreshingTokens();
+  console.log(isRefreshSuccess);
   if (!isRefreshSuccess) {
     console.log('rout gurd false');
     router.navigate(['/login']);

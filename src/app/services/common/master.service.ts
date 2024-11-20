@@ -1,14 +1,15 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Common } from './common';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MasterService {
 
-  private apiUrl = 'https://your-api-url.com'; 
-
+  private apiUrl = Common.getApiBaseUrl();
+  private myHeaders = Common.getApiHeader;
   constructor(private http: HttpClient) {}
 
   // GET request method
@@ -20,7 +21,11 @@ export class MasterService {
   // POST request method
   post<T>(endpoint: string, data: any): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
-    return this.http.post<T>(url, data);
+    return this.http.post<T>(url, data,            {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    });
   }
 
   // PUT request method
