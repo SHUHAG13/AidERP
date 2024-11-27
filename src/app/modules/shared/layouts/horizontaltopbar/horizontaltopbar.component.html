@@ -399,7 +399,7 @@
       <nav class="navbar navbar-light navbar-expand-lg topnav-menu active">
         <div class="collapse navbar-collapse active" id="topnav-menu-content">
           <ul class="navbar-nav">
-            @for (item of menuItems; track $index) {
+            <!-- @for (item of menuItems; track $index) {
               <ng-container>
                 <li class="nav-item dropdown">
                   @if(!item.subItems){
@@ -441,9 +441,9 @@
                           <div>
                             @if(i % 3 == 0){
                               <div class="row">
-                                <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="subitem.link">{{item.subItems[i].label | translate}}</a></div>
-                                <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="item.subItems[i + 1]?.link">{{item.subItems[i + 1]?.label | translate}}</a></div>
-                                <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="item.subItems[i + 2]?.link">{{item.subItems[i + 2]?.label | translate}}</a></div>
+                                <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="subitem.link">{{item.subItems[i].label | translate}} {{i}}</a></div>
+                                <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="item.subItems[i + 1]?.link">{{item.subItems[i + 1]?.label | translate}} {{i+1}}</a></div>
+                                <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="item.subItems[i + 2]?.link">{{item.subItems[i + 2]?.label | translate}} {{i+2}}</a></div>
                               </div>
                             }
                           </div>
@@ -489,6 +489,50 @@
                   }
                 </li>
               </ng-container>
+            } -->
+            @for(module of menuList; track $index){
+              @for (pMenu of module.parentMenus; track $index) {
+                <ng-container>
+                  <li class="nav-item dropdown">
+                    @if(pMenu.menus){
+                      <a 
+                        class="nav-link dropdown-toggle arrow-none" 
+                        (click)="onMenuClick($event)"
+                        href="javascript: void(0);" 
+                        id="topnav-components" 
+                        role="button">
+                        <i class="bx {{pMenu.menuIconURL}} me-1"></i>
+                        {{pMenu.parentMenuName}}
+                        <div class="arrow-down"></div>
+                      </a>
+                    }
+                    @if(hasMenus(pMenu)){
+                      <div class="dropdown-menu" [ngClass]="{'dropdown-mega-menu-xl px-2':  pMenu.menus.length > 11}" aria-labelledby="topnav-dashboard">
+                        <ng-template ngFor let-i="index" let-menu [ngForOf]="pMenu.menus">
+                          @if(pMenu.menus.length < 11){
+                              <a class="col dropdown-item side-nav-link-ref"
+                                [routerLink]="menu.menuURL"
+                                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                                {{menu.menuName }}
+                            </a>
+                          }
+                          @if(pMenu.menus.length > 11){
+                            <div>
+                              @if(i % 3 == 0){
+                                <div class="row">
+                                  <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="menu.menuURL">{{pMenu.menus[i].menuName}} {{i}}</a></div>
+                                  <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="pMenu.menus[i + 1].menuURL">{{pMenu.menus[i + 1].menuName}} {{i+1}}</a></div>
+                                  <div class="col-lg-4"><a class="dropdown-item side-nav-link-ref" routerLinkActive="active" [routerLink]="pMenu.menus[i + 2].menuURL">{{pMenu.menus[i + 2].menuName}} {{i+2}}</a></div>
+                                </div>
+                              }
+                            </div>
+                          }
+                      </ng-template>
+                     </div>
+                    }
+                  </li>
+                </ng-container>
+              }
             }
           </ul>
         </div>

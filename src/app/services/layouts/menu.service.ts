@@ -28,6 +28,6 @@ export class MenuService {
   }
 
   getMenuListByUserId(userId : any){
-    return this.masterSevice.get<CustomResponse>(`Menu/GetByUserId/${userId}`);
+    return this.masterSevice.get<CustomResponse>(`Menu/GetByUserId?userId=${userId}`);
   }
 }

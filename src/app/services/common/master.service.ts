@@ -9,41 +9,33 @@ import { Common } from './common';
 export class MasterService {
 
   private apiUrl = Common.getApiBaseUrl();
-  private myHeaders = Common.getApiHeader;
-  constructor(private http: HttpClient) {}
 
-  // header
-  token = localStorage.getItem('token');
-  header = new HttpHeaders({
-    'Content-Type': 'application/json',
-    Accept: 'application/json',
-    Authorization: 'Bearer ' + this.token,
-  });
+  constructor(private http: HttpClient) {}
 
   // GET request method
   get<T>(endpoint: string): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
-    return this.http.get<T>(url,{
-      headers: this.header});
+    console.log(Common.getApiHeader());
+    return this.http.get<T>(url, Common.getApiHeader());
   }
 
   // POST request method
   post<T>(endpoint: string, data: any): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
-    return this.http.post<T>(url, data,{
-      headers: this.header}
+    console.log(Common.getApiHeader());
+    return this.http.post<T>(url, data, Common.getApiHeader()
     );
   }
 
   // PUT request method
   put<T>(endpoint: string, data: any): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
-    return this.http.put<T>(url, data);
+    return this.http.put<T>(url, data, Common.getApiHeader());
   }
 
   // DELETE request method
   delete<T>(endpoint: string): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
-    return this.http.delete<T>(url);
+    return this.http.delete<T>(url, Common.getApiHeader());
   }
 }

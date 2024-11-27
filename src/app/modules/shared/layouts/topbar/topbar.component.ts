@@ -9,6 +9,7 @@ import { LanguageService } from '../../../../services/language.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-topbar',
@@ -32,7 +33,8 @@ export class TopbarComponent implements OnInit {
               private authFackservice: AuthfakeauthenticationService,
               public languageService: LanguageService,
               public translate: TranslateService,
-              public _cookiesService: CookieService) {
+              public _cookiesService: CookieService,
+              private myAuthService : AuthService) {
   }
 
   listLang = [
@@ -89,12 +91,7 @@ export class TopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-    // if (environment.defaultauth === 'firebase') {
-    //   this.authService.logout();
-    // } else {
-    //   this.authFackservice.logout();
-    // }
-    // this.router.navigate(['/account/login']);
+    this.myAuthService.logout();
   }
 
   /**

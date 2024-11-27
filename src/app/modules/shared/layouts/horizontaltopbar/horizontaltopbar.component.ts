@@ -14,6 +14,9 @@ import { MenuItem } from './menu.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/models/layouts/user-module-menu-dto';
+import { MenuService } from '../../../../services/layouts/menu.service';
+import { AuthService } from '../../../../services/auth/auth.service';
 
 // import { environment } from '../../../environments/environment';
 
@@ -33,6 +36,7 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
   valueset : any;
 
   menuItems : any[] = [];
+  menuList : UserModuleMenuDTO[] = [];
 
   listLang = [
     { text: 'English', flag: 'assets/images/flags/us.jpg', lang: 'en' },
@@ -47,7 +51,9 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
     private authFackservice: AuthfakeauthenticationService,
     public languageService: LanguageService,
     // tslint:disable-next-line: variable-name
-    public _cookiesService: CookieService) {
+    public _cookiesService: CookieService,
+    private menuService : MenuService,
+    private myAuthService: AuthService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
@@ -81,12 +87,7 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
    * Logout the user
    */
   logout() {
-    // if (environment.defaultauth === 'firebase') {
-    //   this.authService.logout();
-    // } else {
-    //   this.authFackservice.logout();
-    // }
-    // this.router.navigate(['/account/login']);
+    this.myAuthService.logout();
   }
 
   /**
@@ -263,6 +264,8 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
    */
   initialize(): void {
     this.menuItems = MENU;
+    this.menuList = this.menuService.MenuList;
+    console.log(this.menuList);
   }
 
   /**
@@ -271,6 +274,9 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
    */
   hasItems(item: MenuItem) {
     return item.subItems !== undefined ? item.subItems.length > 0 : false;
+  }
+  hasMenus(item : ParentMenuDTO){
+    return item.menus !== undefined ? item.menus.length > 0 : false;
   }
 
 }

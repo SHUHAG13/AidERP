@@ -152,7 +152,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    * Initialize
    */
   initialize(): void {
-    console.log("initialize section")
     this.menuItems = MENU;
     this.menuList = this.menuService.MenuList;
     console.log(this.menuList);
