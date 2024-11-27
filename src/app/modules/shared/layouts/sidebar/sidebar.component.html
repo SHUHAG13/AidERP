@@ -7,7 +7,7 @@
       <!-- Left Menu Start -->
       <ul class="metismenu list-unstyled" id="side-menu" #sideMenu>
         <!-- {{menuItems}} -->
-         @for(item of menuItems; track $index){
+         <!-- @for(item of menuItems; track $index){
           <ng-container>
             @if(item.isTitle){
               <li class="menu-title">{{ item.label | translate }}</li>
@@ -75,7 +75,43 @@
               </li>
             }        
           </ng-container>
-         }
+         } -->
+         
+         <!-- {{menuItems}} mehedi-->
+
+         @for(module of menuList; track $index){
+          <ng-container>
+            <li class="menu-title">{{ module.moduleName }}</li>
+            <li>
+              @for(pMenu of module.parentMenus; track $index){
+                @if(hasMenus(pMenu)){
+                  <a href="javascript:void(0);" class="is-parent"
+                    [ngClass]="{'has-arrow': true, 'has-dropdown': true}"
+                    >
+                    @if(pMenu.menuIconURL){
+                      <i class="bx {{pMenu.menuIconURL}}"></i>
+                    }
+                    <span>{{ pMenu.parentMenuName }}</span>
+                  </a>
+                  <ul class="sub-menu" aria-expanded="false">
+                    @for(menu of pMenu.menus; track $index){
+                      <li>
+                        <a [routerLink]="menu.menuURL" class="side-nav-link-ref"
+                          [attr.data-parent]="menu.parentMenuId" routerLinkActive="active">
+                          @if(menu.menuIconURL){
+                            <i class="bx {{menu.menuIconURL}}"></i>
+                          }
+                          {{ menu.menuName }}
+                        </a>
+                      </li>
+                    }
+                  </ul>
+                }
+              }
+            </li>
+          </ng-container>
+        }
+         <!--  -->
       </ul>
     </div>
   </ng-template>

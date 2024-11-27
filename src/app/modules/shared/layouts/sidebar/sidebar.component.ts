@@ -2,14 +2,12 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild, Input, OnChang
 import MetisMenu from 'metismenujs';
 import { EventService } from '../../../../services/event.service';
 import { Router, NavigationEnd, RouterLink } from '@angular/router';
-
-import { HttpClient } from '@angular/common/http';
-
 import { MENU } from './menu';
-import { MenuItem } from './menu.model';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { SimplebarAngularModule } from 'simplebar-angular';
+import { MenuService } from '../../../../services/layouts/menu.service';
+import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/models/layouts/user-module-menu-dto';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,12 +21,18 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isCondensed = false;
   menu: any;
   data: any;
-
   menuItems : any[] = [];
+
+  menuList : UserModuleMenuDTO[] = [];
 
   @ViewChild('sideMenu') sideMenu! : ElementRef;
 
-  constructor(private eventService: EventService, private router: Router, public translate: TranslateService, private http: HttpClient) {
+  constructor(
+    private eventService: EventService, 
+    private router: Router, 
+    public translate: TranslateService, 
+    private menuService : MenuService
+  ) {
     router.events.forEach((event) => {
       if (event instanceof NavigationEnd) {
         this._activateMenuDropdown();
@@ -61,18 +65,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
   _scrollElement() {
-    // setTimeout(() => {
-    //   if (document.getElementsByClassName("mm-active").length > 0) {
-    //     const activeElement = activeElements[0] as HTMLElement;
-
-    //     const currentPosition = document.getElementsByClassName("mm-active")[0]['offsetTop'];
-    //     if (currentPosition > 500)
-    //     if(this.scrollRef.SimpleBar !== null)
-    //       this.scrollRef.SimpleBar.getScrollElement().scrollTop =
-    //         currentPosition + 300;
-    //   }
-    // }, 300);
-
     setTimeout(() => {
       const activeElements = document.getElementsByClassName("mm-active");
     
@@ -89,7 +81,6 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
         }
       }
     }, 300);
-    
   }
 
   /**
@@ -161,14 +152,21 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
    * Initialize
    */
   initialize(): void {
+    console.log("initialize section")
     this.menuItems = MENU;
+    this.menuList = this.menuService.MenuList;
+    console.log(this.menuList);
   }
 
   /**
    * Returns true or false if given menu item has child or not
    * @param item menuItem
    */
-  hasItems(item: MenuItem) {
-    return item.subItems !== undefined ? item.subItems.length > 0 : false;
+  // hasItems(item: MenuItem) {
+  //   return item.subItems !== undefined ? item.subItems.length > 0 : false;
+  // }
+
+  hasMenus(item : ParentMenuDTO){
+    return item.menus !== undefined ? item.menus.length > 0 : false;
   }
 }

@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MasterService } from '../common/master.service';
 import { Router } from '@angular/router';
-import { AuthenticatedResponse } from '../../core/models/auth/authenticated-response';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../../core/models/auth/login';
 import { CustomResponse } from '../../core/models/common/response';
 
@@ -15,8 +13,7 @@ export class AuthService {
   constructor(
     private jwtHelper : JwtHelperService,
     private masterService : MasterService,
-    private router : Router,
-    private http : HttpClient
+    private router : Router
   ){}
 
   isAuthenticated(): boolean {

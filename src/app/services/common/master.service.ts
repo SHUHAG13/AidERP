@@ -12,20 +12,27 @@ export class MasterService {
   private myHeaders = Common.getApiHeader;
   constructor(private http: HttpClient) {}
 
+  // header
+  token = localStorage.getItem('token');
+  header = new HttpHeaders({
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+    Authorization: 'Bearer ' + this.token,
+  });
+
   // GET request method
   get<T>(endpoint: string): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
-    return this.http.get<T>(url);
+    return this.http.get<T>(url,{
+      headers: this.header});
   }
 
   // POST request method
   post<T>(endpoint: string, data: any): Observable<T> {
     const url = `${this.apiUrl}/${endpoint}`;
-    return this.http.post<T>(url, data,            {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    });
+    return this.http.post<T>(url, data,{
+      headers: this.header}
+    );
   }
 
   // PUT request method

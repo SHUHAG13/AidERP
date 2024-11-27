@@ -5,6 +5,7 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { CustomResponse } from '../../../core/models/common/response';
 import { CommonModule } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { MenuService } from '../../../services/layouts/menu.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit{
   constructor(
       private route: ActivatedRoute,
       private router: Router, 
-      private authService: AuthService
+      private authService: AuthService,
+      private menuService: MenuService
     ) {}
 
   ngOnInit() {
@@ -38,8 +40,8 @@ export class LoginComponent implements OnInit{
   }
 
   loginForm = this.formBuilder.group({
-    username: ['LPL09468', [Validators.required]],
-    password: ['123456', [Validators.required]],
+    username: ['string', [Validators.required]],
+    password: ['string', [Validators.required]],
   });
   
   // convenience getter for easy access to form fields
@@ -66,7 +68,9 @@ export class LoginComponent implements OnInit{
           next : (res : CustomResponse) => {
             localStorage.setItem('token',res.data.token);
             localStorage.setItem('refreshToken',res.data.refreshToken)
-            this.router.navigate(['/']);
+            this.setMenuList(() => {
+              this.router.navigate(['/']);
+            });
             console.log(res)
           },
           error: e => {
@@ -75,5 +79,17 @@ export class LoginComponent implements OnInit{
           }
         })
       }
+  }
+
+  setMenuList(callback: () => void) {
+    this.menuService.getMenuListByUserId(1).subscribe({
+      next: (res: CustomResponse) => {
+        this.menuService.MenuList = res.data;
+        callback();
+      },
+      error: e => {
+        console.log(e);
+      }
+    });
   }
 }
