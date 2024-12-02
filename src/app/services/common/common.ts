@@ -1,4 +1,5 @@
 import { HttpHeaders } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
 
 export class Common{
 
@@ -7,7 +8,7 @@ export class Common{
     }
 
     public static getApiBaseUrl(){
-        return 'https://localhost:7226'
+        return environment.apiUrl;
     }
 
     public static getApiHeader() {

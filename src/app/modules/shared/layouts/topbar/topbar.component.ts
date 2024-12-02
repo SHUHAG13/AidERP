@@ -1,9 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { AuthenticationService } from '../../../../services/auth.service';
-import { AuthfakeauthenticationService } from '../../../../services/authfake.service';
-// import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../../../services/language.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -28,9 +25,7 @@ export class TopbarComponent implements OnInit {
 
   constructor(
               @Inject(DOCUMENT) private document: any,
-              private router: Router, 
-              private authService: AuthenticationService,
-              private authFackservice: AuthfakeauthenticationService,
+              private router: Router,
               public languageService: LanguageService,
               public translate: TranslateService,
               public _cookiesService: CookieService,
