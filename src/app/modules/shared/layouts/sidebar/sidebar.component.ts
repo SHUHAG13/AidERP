@@ -7,7 +7,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { MenuService } from '../../../../services/layouts/menu.service';
-import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/models/layouts/user-module-menu-dto';
+import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/layouts/user-module-menu-dto';
+
 
 @Component({
   selector: 'app-sidebar',

@@ -2,11 +2,6 @@ import { Component, OnInit, AfterViewInit, Inject } from '@angular/core';
 import { Router, NavigationEnd, RouterLink, RouterLinkActive } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { LanguageService } from '../../../../services/language.service';
-
-import { EventService } from '../../../../services/event.service';
-import { AuthenticationService } from '../../../../services/auth.service';
-import { AuthfakeauthenticationService } from '../../../../services/authfake.service';
-
 import { CommonModule, DOCUMENT } from '@angular/common';
 
 import { MENU } from './menu';
@@ -14,9 +9,9 @@ import { MenuItem } from './menu.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/models/layouts/user-module-menu-dto';
 import { MenuService } from '../../../../services/layouts/menu.service';
-import { AuthService } from '../../../../services/auth/auth.service';
+import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
+import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/layouts/user-module-menu-dto';
 
 // import { environment } from '../../../environments/environment';
 
@@ -47,8 +42,9 @@ export class HorizontaltopbarComponent implements OnInit, AfterViewInit {
   ];
 
   // tslint:disable-next-line: max-line-length
-  constructor( @Inject(DOCUMENT) private document: any, private router: Router, private eventService: EventService, private authService: AuthenticationService,
-    private authFackservice: AuthfakeauthenticationService,
+  constructor( 
+    @Inject(DOCUMENT) private document: any, 
+    private router: Router, 
     public languageService: LanguageService,
     // tslint:disable-next-line: variable-name
     public _cookiesService: CookieService,
