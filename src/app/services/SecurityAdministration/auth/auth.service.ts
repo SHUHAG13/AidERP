@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { MasterService } from '../common/master.service';
+import { MasterService } from '../../common/master.service';
 import { Router } from '@angular/router';
-import { Login } from '../../core/models/auth/login';
-import { CustomResponse } from '../../core/models/common/response';
+import { Login } from '../../../core/SecurityAdministration/auth/login';
+import { CustomResponse } from '../../../core/common/response';
 
 @Injectable({
   providedIn: 'root'

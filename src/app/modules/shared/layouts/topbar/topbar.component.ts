@@ -6,7 +6,7 @@ import { LanguageService } from '../../../../services/language.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../../../../services/auth/auth.service';
+import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
 
 @Component({
   selector: 'app-topbar',

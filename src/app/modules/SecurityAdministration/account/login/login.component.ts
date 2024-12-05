@@ -1,11 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../../services/auth/auth.service';
-import { CustomResponse } from '../../../core/models/common/response';
 import { CommonModule } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { MenuService } from '../../../services/layouts/menu.service';
+import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
+import { MenuService } from '../../../../services/layouts/menu.service';
+import { CustomResponse } from '../../../../core/common/response';
+
+
 
 @Component({
   selector: 'app-login',
