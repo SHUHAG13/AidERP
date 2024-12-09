@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
-import { MenuService } from '../../../../services/layouts/menu.service';
+import { MenuService } from '../../../../services/SecurityAdministration/menu/menu.service';
 import { CustomResponse } from '../../../../core/common/response';
 
 
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit{
   submitted = false;
   error = '';
   returnUrl!: string;
+  userId! : string;
 
   // set the currenr year
   year: number = new Date().getFullYear();
@@ -70,6 +71,22 @@ export class LoginComponent implements OnInit{
           next : (res : CustomResponse) => {
             localStorage.setItem('token',res.data.token);
             localStorage.setItem('refreshToken',res.data.refreshToken)
+            const claims = this.decodeJwt(res.data.token);
+            if (claims) { 
+              // Access specific claims
+              this.userId = claims['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'];
+              // const name = claims['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+              // const macAddress = claims['MACAddress'];
+              // const expiration = claims['exp'];
+        
+              // console.log('Name Identifier:', nameIdentifier);
+              // console.log('Name:', name);
+              // console.log('MAC Address:', macAddress);
+              // console.log('Expiration:', expiration);
+            } else {
+              console.error('Failed to decode token.');
+            }
+
             this.setMenuList(() => {
               this.router.navigate(['/']);
             });
@@ -84,7 +101,7 @@ export class LoginComponent implements OnInit{
   }
 
   setMenuList(callback: () => void) {
-    this.menuService.getMenuListByUserId(1).subscribe({
+    this.menuService.getMenuListByUserId(this.userId).subscribe({
       next: (res: CustomResponse) => {
         this.menuService.MenuList = res.data;
         callback();
@@ -93,5 +110,23 @@ export class LoginComponent implements OnInit{
         console.log(e);
       }
     });
+  }
+
+  // decode jwt token
+  decodeJwt(token: string): any {
+    try {
+      // Split the token into parts
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        throw new Error('Invalid JWT token');
+      }
+      // Decode the payload (second part)
+      const payloadBase64 = parts[1];
+      const decodedPayload = atob(payloadBase64); // Base64 decoding
+      return JSON.parse(decodedPayload); // Parse as JSON
+    } catch (error) {
+      console.error('Error decoding JWT:', error);
+      return null;
+    }
   }
 }

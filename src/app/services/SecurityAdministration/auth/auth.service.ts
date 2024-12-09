@@ -18,8 +18,25 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
-    console.log(token);
-    return token != null && !this.jwtHelper.isTokenExpired(token);
+    if (!token) {
+      console.error('Token is null or undefined.');
+      return false;
+    }
+  
+    if (!token.includes('.') || token.split('.').length !== 3) {
+      console.error('Token is not a valid JWT format:', token);
+      return false;
+    }
+  
+    // Safely check token expiration
+    try {
+      const isExpired = this.jwtHelper.isTokenExpired(token);
+      console.log('Is token expired:', isExpired);
+      return !isExpired; // Return true if not expired
+    } catch (error) {
+      console.error('Error in JwtHelperService.isTokenExpired:', error);
+      return false;
+    }
   }
 
   getAuthStatus(): boolean {
@@ -55,9 +72,11 @@ export class AuthService {
           this.masterService.post<CustomResponse>('Auth/RefreshToken', credentials)
           .subscribe({
               next: (res: CustomResponse) => {
+                console.log(res)
                 res.success ? resolve(res) : reject({ message: res.message });
               },
               error: (e) => {
+                console.log(e)
                 reject({ message: e.error.message, error: e })
               },
             });

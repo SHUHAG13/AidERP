@@ -9,9 +9,9 @@ import { MenuItem } from './menu.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { MenuService } from '../../../../services/layouts/menu.service';
+import { MenuService } from '../../../../services/SecurityAdministration/menu/menu.service';
 import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
-import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/layouts/user-module-menu-dto';
+import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/SecurityAdministration/menu/user-module-menu-dto';
 
 // import { environment } from '../../../environments/environment';
 
