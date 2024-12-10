@@ -75,21 +75,23 @@
               <div class="col-4"><label style="padding-top: 3px;">Module<span style="font-weight: bold; color: red;">*</span></label></div>
               <div class="col-8">
                 <ng-select
+                class="custom-ng-select"
+                [ngClass]="{'is-invalid': submitted && form['moduleId'].errors}"
                 [items]="moduleList" 
                 bindLabel="name" 
                 bindValue="id" 
-                formControlName = "moduleId" 
+                formControlName="moduleId"
                 [searchable]="true"
                 >
               </ng-select>
-                <div *ngIf="submitted && form['moduleId'].errors" class="invalid-feedback">
+                <div *ngIf="submitted && form['moduleId'].errors" class="invalid-feedback  mb-2">
                   <span *ngIf="form['moduleId'].errors['required']">Module is required.</span>
                 </div>
               </div>
           </div>
         </div>
 
-        <div class="col-md-4 col-sm-12">
+        <!-- <div class="col-md-4 col-sm-12">
           <div class="row">
               <div class="col-4"><label style="padding-top: 3px;">Module<span style="font-weight: bold; color: red;">*</span></label></div>
               <div class="col-8">
@@ -100,15 +102,16 @@
                 </div>
               </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="col-md-4 col-sm-12">
           <div class="row">
               <div class="col-4"><label style="padding-top: 3px;">Menu Name<span style="font-weight: bold; color: red;">*</span></label></div>
               <div class="col-8">
                 <input class="form-control inputHeight" placeholder="Enter Menu Name" type="text" autocomplete="off" formControlName="menuName"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
                 [ngClass]="{'is-invalid': submitted && form['menuName'].errors}" />
-                <div *ngIf="submitted && form['menuName'].errors" class="invalid-feedback">
+                <div *ngIf="submitted && form['menuName'].errors" class="invalid-feedback  mb-2">
                   <span *ngIf="form['menuName'].errors['required']">Menu name is required.</span>                
                 </div>
               </div>
@@ -120,11 +123,7 @@
           <div class="row">
               <div class="col-4"><label style="padding-top: 3px;">Short Name</label></div>
               <div class="col-8">
-                <input class="form-control inputHeight" placeholder="Enter Short Name" type="text" autocomplete="off" formControlName="shortName"
-                [ngClass]="{'is-invalid': submitted && form['shortName'].errors}" />
-              <div *ngIf="submitted && form['shortName'].errors" class="invalid-feedback">
-                <span>Some error occoured!</span>
-              </div>
+                <input class="form-control inputHeight" placeholder="Enter Short Name" type="text" autocomplete="off" formControlName="shortName"/>
               </div>
           </div>
         </div>
@@ -133,11 +132,7 @@
           <div class="row">
               <div class="col-4"><label style="padding-top: 3px;">Description</label></div>
               <div class="col-8">
-                <input class="form-control inputHeight" placeholder="Enter Description" type="text" autocomplete="off" formControlName="description"
-                [ngClass]="{'is-invalid': submitted && form['description'].errors}" />
-                <div *ngIf="submitted && form['description'].errors" class="invalid-feedback">
-                  <span>Some error occoured!</span>
-                </div>
+                <input class="form-control inputHeight" placeholder="Enter Description" type="text" autocomplete="off" formControlName="description" />
               </div>
           </div>
         </div>
@@ -148,7 +143,7 @@
               <div class="col-8">
                 <input class="form-control inputHeight" placeholder="Enter Menu Url" type="text" autocomplete="off" formControlName="url"
                 [ngClass]="{'is-invalid': submitted && form['url'].errors}" />
-                <div *ngIf="submitted && form['url'].errors" class="invalid-feedback">
+                <div *ngIf="submitted && form['url'].errors" class="invalid-feedback  mb-2">
                   <span *ngIf="form['url'].errors['required']">Url is required.</span>
                 </div>
               </div>
@@ -159,11 +154,7 @@
           <div class="row">
               <div class="col-4"><label style="padding-top: 3px;">Menu Icon</label></div>
               <div class="col-8">
-                <input class="form-control inputHeight" placeholder="Enter Menu Icon" type="text" autocomplete="off" formControlName="iconUrl"
-                [ngClass]="{'is-invalid': submitted && form['iconUrl'].errors}" />
-                <div *ngIf="submitted && form['iconUrl'].errors" class="invalid-feedback">
-                  <span>Some error occoured!</span>
-                </div>
+                <input class="form-control inputHeight" placeholder="Enter Menu Icon" type="text" autocomplete="off" formControlName="iconUrl"/>
               </div>
           </div>
         </div>
@@ -172,11 +163,7 @@
           <div class="row">
               <div class="col-4"><label style="padding-top: 3px;">Parent Menu</label></div>
               <div class="col-8">
-                <input class="form-control inputHeight" placeholder="Enter Parent Menu" type="text" autocomplete="off" formControlName="parentMenuId"
-                [ngClass]="{'is-invalid': submitted && form['url'].errors}" />
-                <div *ngIf="submitted && form['parentMenuId'].errors" class="invalid-feedback">
-                  <span>Some error occoured!</span>
-                </div>
+                <input class="form-control inputHeight" placeholder="Enter Parent Menu" type="text" autocomplete="off" formControlName="parentMenuId" />
               </div>
           </div>
         </div>
@@ -187,7 +174,7 @@
               <div class="col-8">
                 <input class="form-control inputHeight" placeholder="Enter Order" type="text" autocomplete="off" formControlName="order"
                 [ngClass]="{'is-invalid': submitted && form['order'].errors}" />
-                <div *ngIf="submitted && form['order'].errors" class="invalid-feedback">
+                <div *ngIf="submitted && form['order'].errors" class="invalid-feedback  mb-2">
                   <span *ngIf="form['order'].errors['required']">Order is required.</span>
                 </div>
               </div>
@@ -204,3 +191,25 @@
      </form>
     </div>
   </ng-template>
+
+
+  <button class="btn btn-primary" (click)="displayToast('This is a success message!', 'Success')">Show Toast</button>
+
+  <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer">
+    <div 
+      class="toast" 
+      role="alert" 
+      aria-live="assertive" 
+      aria-atomic="true" 
+      [ngClass]="{ 'show': showToast }" 
+      *ngIf="toastMessage">
+      <div class="toast-header">
+        <strong class="me-auto">{{ toastTitle }}</strong>
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideToast()"></button>
+      </div>
+      <div class="toast-body">
+        {{ toastMessage }}
+      </div>
+    </div>
+  </div>
+  

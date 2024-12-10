@@ -29,4 +29,30 @@
   opacity: 1;
 }
 
+// mehedi.it@labaidpharma.com
+// customize ng-select height start
+.custom-ng-select .ng-select-container {
+  min-height: 25px !important;
+}
+.custom-ng-select.ng-select.ng-select-single .ng-select-container{
+  height: 25px !important;
+}
+
+.custom-ng-select.ng-select.ng-select-multiple .ng-select-container .ng-value-container{
+  padding: 0px !important;
+}
+
+.custom-ng-select.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value{
+  margin: 2px !important;
+}
+
+.ng-dropdown-panel-items .ng-option{
+  padding: 4px 6px !important;
+}
+
+.ng-select.is-invalid .ng-select-container {
+  border: 1px solid #f46a6a !important; /* Bootstrap danger color */
+}
+
+// end
 
