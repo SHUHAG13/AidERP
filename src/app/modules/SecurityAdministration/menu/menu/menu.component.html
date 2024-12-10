@@ -1,0 +1,215 @@
+<div class="container-fluid">
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <div class="card">
+            <div class="card-header p-4">
+                <div class="row">
+                    <div class="col-9">
+                        <h5>Menu List</h5>
+                    </div>
+                    <div class="col-3 text-end">
+                        <a (click)="openModal(content)" class="btn btn-primary btn-sm">Add New</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-sm m-0">
+                      <thead>
+                        <tr>
+                          <th>#ID</th>
+                          <th>Name</th>
+                          <th>Short Name</th>
+                          <th>Url</th>
+                          <th>Icon Url</th>
+                          <th>SL</th>
+                          <th>Parent MenuID</th>
+                          <th>ModuleID</th>
+                          <th>CreatedBy</th>
+                          <th>CreatedOn</th>
+                          <th>UpdatedBy</th>
+                          <th>UpdatedOn</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for(menu of menuList; track $index){
+                            <tr>
+                                <td> {{menu.id}} </td>
+                                <td> {{menu.name}} </td>
+                                <td> {{menu.shortName}} </td>
+                                <td> {{menu.url}} </td>
+                                <td> {{menu.iconUrl}} </td>
+                                <td> {{menu.slNo}} </td>
+                                <td> {{menu.parentMenuId}} </td>
+                                <td> {{menu.moduleId}} </td>
+                                <td> {{menu.createdBy}} </td>
+                                <td> {{menu.createdOn | date}} </td>
+                                <td> {{menu.updatedBy}} </td>
+                                <td> {{menu.updatedOn}} </td>
+                                <td> {{menu.status}} </td>
+                            </tr>
+                        }
+                      </tbody>
+                    </table>        
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<!-- Standard Modal -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title mt-0">Add Menu</h5>
+      <button type="button" class="btn-close" aria-hidden="true" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+     <form (ngSubmit)="saveMenu()" [formGroup]="formData">
+      <div class="row">
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Module<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <ng-select
+                class="custom-ng-select"
+                [ngClass]="{'is-invalid': submitted && form['moduleId'].errors}"
+                [items]="moduleList" 
+                bindLabel="name" 
+                bindValue="id" 
+                formControlName="moduleId"
+                [searchable]="true"
+                >
+              </ng-select>
+                <div *ngIf="submitted && form['moduleId'].errors" class="invalid-feedback  mb-2">
+                  <span *ngIf="form['moduleId'].errors['required']">Module is required.</span>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <!-- <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Module<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Choose Module" type="text" autocomplete="off" formControlName="moduleId"
+                [ngClass]="{'is-invalid': submitted && form['moduleId'].errors}" />
+                <div *ngIf="submitted && form['moduleId'].errors" class="invalid-feedback">
+                  <span *ngIf="form['moduleId'].errors['required']">Module is required.</span>
+                </div>
+              </div>
+          </div>
+        </div> -->
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Menu Name<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Menu Name" type="text" autocomplete="off" formControlName="menuName"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                [ngClass]="{'is-invalid': submitted && form['menuName'].errors}" />
+                <div *ngIf="submitted && form['menuName'].errors" class="invalid-feedback  mb-2">
+                  <span *ngIf="form['menuName'].errors['required']">Menu name is required.</span>                
+                </div>
+              </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Short Name</label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Short Name" type="text" autocomplete="off" formControlName="shortName"/>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Description</label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Description" type="text" autocomplete="off" formControlName="description" />
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Menu Url<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Menu Url" type="text" autocomplete="off" formControlName="url"
+                [ngClass]="{'is-invalid': submitted && form['url'].errors}" />
+                <div *ngIf="submitted && form['url'].errors" class="invalid-feedback  mb-2">
+                  <span *ngIf="form['url'].errors['required']">Url is required.</span>
+                </div>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Menu Icon</label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Menu Icon" type="text" autocomplete="off" formControlName="iconUrl"/>
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Parent Menu</label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Parent Menu" type="text" autocomplete="off" formControlName="parentMenuId" />
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Order<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Order" type="text" autocomplete="off" formControlName="order"
+                [ngClass]="{'is-invalid': submitted && form['order'].errors}" />
+                <div *ngIf="submitted && form['order'].errors" class="invalid-feedback  mb-2">
+                  <span *ngIf="form['order'].errors['required']">Order is required.</span>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-3">
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-success btn-sm" id="btn-save-event">
+            Save
+          </button>
+        </div>
+      </div>
+     </form>
+    </div>
+  </ng-template>
+
+
+  <button class="btn btn-primary" (click)="displayToast('This is a success message!', 'Success')">Show Toast</button>
+
+  <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer">
+    <div 
+      class="toast" 
+      role="alert" 
+      aria-live="assertive" 
+      aria-atomic="true" 
+      [ngClass]="{ 'show': showToast }" 
+      *ngIf="toastMessage">
+      <div class="toast-header">
+        <strong class="me-auto">{{ toastTitle }}</strong>
+        <button type="button" class="btn-close" aria-label="Close" (click)="hideToast()"></button>
+      </div>
+      <div class="toast-body">
+        {{ toastMessage }}
+      </div>
+    </div>
+  </div>
+  

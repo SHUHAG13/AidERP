@@ -918,8 +918,8 @@ $form-validation-states: (
 $zindex-dropdown:                   1000;
 $zindex-sticky:                     1020;
 $zindex-fixed:                      1030;
-$zindex-modal-backdrop:             1040;
-$zindex-modal:                      1050;
+$zindex-modal-backdrop:             1040 !important;
+$zindex-modal:                      1050 !important;
 $zindex-popover:                    1060;
 $zindex-tooltip:                    1070;
 // scss-docs-end zindex-stack
