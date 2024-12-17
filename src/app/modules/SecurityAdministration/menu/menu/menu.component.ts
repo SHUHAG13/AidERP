@@ -79,29 +79,49 @@ export class MenuComponent implements OnInit{
     }
     saveMenu(){
       this.submitted = true;
+      
+      if (this.formData.invalid) {
+        this.displayValidationErrors();
+        return;
+      }
+  
+      // If valid, handle successful form submission
+      this.showToast = false;
+      console.log('Form submitted successfully', this.formData.value);
     }
 
 
     // for error toaster
     showToast = false; // Tracks toast visibility
-    toastMessage = ''; // Message to display in the toast
-    toastTitle = 'Notification'; // Title for the toast
-    // Show the toast with a message
-    displayToast(message: string, title: string = 'Notification') {
-      this.toastMessage = message;
-      this.toastTitle = title;
+    toastErrors: string[] = [];
+
+    displayValidationErrors() {
+      this.toastErrors = [];
+
+      if (this.form['moduleId'].errors?.['required']) {
+        this.toastErrors.push('Module is required.');
+      }
+      if (this.form['menuName'].errors?.['required']) {
+        this.toastErrors.push('Menu Name is required.');
+      }
+      if (this.form['url'].errors?.['required']) {
+        this.toastErrors.push('Menu URL is required.');
+      }
+      if (this.form['order'].errors?.['required']) {
+        this.toastErrors.push('Order is required.');
+      }
+
       this.showToast = true;
 
-      // Automatically hide the toast after 3 seconds
-      setTimeout(() => {
-        this.hideToast();
-      }, 3000);
+    // Auto-hide toast after a delay
+      // setTimeout(() => {
+      //   this.showToast = false;
+      // }, 8000);
     }
 
     // Hide the toast
     hideToast() {
       this.showToast = false;
-      this.toastMessage = '';
     }
 
 }
