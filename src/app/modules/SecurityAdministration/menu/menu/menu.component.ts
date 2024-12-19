@@ -7,6 +7,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModuleService } from '../../../../services/SecurityAdministration/module/module.service';
 import { ModuleDTO } from '../../../../core/SecurityAdministration/module/module.model';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CustomResponse } from '../../../../core/common/response';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-menu',
@@ -21,6 +24,7 @@ export class MenuComponent implements OnInit{
   moduleList: ModuleDTO[] = []
   formData!: FormGroup;
   submitted = false;
+  isEdit = false;
 
   private menuService = inject(MenuService);
   private moduleService = inject(ModuleService);
@@ -28,10 +32,13 @@ export class MenuComponent implements OnInit{
   private modalService = inject(NgbModal)
 
   ngOnInit(): void {
+
+    this.isEdit = false;
     this.getAllMenus();
     this.getAllModule();
 
     this.formData = this.formBuilder.group({
+      id: [''],
       moduleId: ['',[Validators.required]],
       menuName: ['',[Validators.required]],
       shortName: [''],
@@ -84,12 +91,60 @@ export class MenuComponent implements OnInit{
         this.displayValidationErrors();
         return;
       }
-  
+
       // If valid, handle successful form submission
       this.showToast = false;
-      console.log('Form submitted successfully', this.formData.value);
+
+      const model = {
+        Id: this.formData.value.id,
+        ModuleID: this.formData.value.moduleId,
+        Name: this.formData.value.menuName,
+        Description: this.formData.value.description,
+        URL: this.formData.value.url,
+        ParentMenuId: this.formData.value.parentMenuId,
+        SLNo: this.formData.value.order,
+        ShortName : this.formData.value.shortName,
+        IconURL: this.formData.value.iconUrl
+      }
+      console.log(this.isEdit)
+      if(this.isEdit){
+        this.confirmUpdate(model);
+      }else{
+        this.confirmAdd(model);
+      }
     }
 
+    addMenu(model : any){
+      this.menuService.addMenu(model).subscribe({
+        next : (res : CustomResponse) => {
+          console.log(res)
+          if (res.success) {
+            this.modalService.dismissAll(); // Close the modal
+            Swal.fire('Added!', 'Your menu has been added.', 'success')
+            this.ngOnInit(); // Refresh the menu list
+          } else {
+            console.warn('Menu addition failed:', res.message);
+          }
+        },
+        error : e => console.warn(e)
+      })
+    }
+
+    updateMenu(model : any){
+      this.menuService.updateMenu(model).subscribe({
+        next : (res : CustomResponse) => {
+          console.log(res)
+          if (res.success) {
+            this.modalService.dismissAll(); // Close the modal
+            Swal.fire('Updated!', 'Your menu has been updated.', 'success')
+            this.ngOnInit(); // Refresh the menu list
+          } else {
+            console.warn('Menu updating failed:', res.message);
+          }
+        },
+        error : e => console.warn(e)
+      })
+    }
 
     // for error toaster
     showToast = false; // Tracks toast visibility
@@ -122,6 +177,98 @@ export class MenuComponent implements OnInit{
     // Hide the toast
     hideToast() {
       this.showToast = false;
+    }
+
+    // edit menu
+    editMenu(id: any, content: TemplateRef<any>) {
+      this.isEdit = true;
+      this.menuService.getMenuById(id).subscribe({
+        next: (res: CustomResponse) => {
+          console.log(res.data)
+          if (res.success) {
+            const menu = res.data;
+    
+            // Patch the form with the fetched data
+            this.formData.patchValue({
+              id: menu.id,
+              moduleId: menu.moduleId,
+              menuName: menu.name,
+              shortName: menu.shortName,
+              description: menu.description,
+              url: menu.url,
+              iconUrl: menu.iconUrl,
+              parentMenuId: menu.parentMenuId,
+              order: menu.slNo
+            });
+    
+            // Open the modal after data is patched
+            this.openModal(content);
+          } else {
+            console.warn('Failed to fetch menu data:', res.message);
+            Swal.fire('Error!', 'Failed to fetch menu data.', 'error');
+          }
+        },
+        error: (e) => {
+          console.warn('Error fetching menu data:', e);
+          Swal.fire('Error!', 'An unexpected error occurred.', 'error');
+        }
+      });
+    }
+
+    // sweet alert
+    confirmAdd(data : any){
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#34c38f',
+        cancelButtonColor: '#f46a6a',
+        confirmButtonText: 'Yes, add it!'
+      }).then(result => {
+        if (result.isConfirmed) {
+            this.addMenu(data);
+          }
+      });
+    }
+
+    confirmUpdate(data : any){
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#34c38f',
+        cancelButtonColor: '#f46a6a',
+        confirmButtonText: 'Yes, update it!'
+      }).then(result => {
+        if (result.isConfirmed) {
+            this.updateMenu(data);
+          }
+      });
+    }
+
+    confirmDelete(id : any) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#34c38f',
+        cancelButtonColor: '#f46a6a',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(result => {
+        if (result.isConfirmed) {
+          this.menuService.deleteMenu(id).subscribe({
+            next : (res:CustomResponse) =>{
+              if(res.success){
+                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+              }
+            },
+            error : e => console.warn(e)
+          })
+        }
+      });
     }
 
 }
