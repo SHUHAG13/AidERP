@@ -1,0 +1,225 @@
+<div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <div class="card">
+          <div class="card-header p-4">
+            <div class="row">
+              <div class="col-9">
+                <h5>User List</h5>
+              </div>
+              <div class="col-3 text-end">
+                <a class="btn btn-primary btn-sm" (click)="openModal(content)">Add New</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-sm m-0">
+                <thead>
+                  <tr>
+                    <th>#ID</th>
+                    <th>User Name</th>
+                    <th>Role Id</th>
+                    <th>Tenant Id</th>
+                    <th></th>
+                    <th>Password</th>
+                   
+                    <th>CreatedBy</th>
+                    <th>CreatedOn</th>
+                    <th>UpdatedBy</th>
+                    <th>UpdatedOn</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users; let i = index">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.roleName }}</td>
+                    <td>{{ user.tenantName }}</td>
+                    <td>
+                        <button 
+                            type="button" 
+                            (click)="togglePasswordVisibility(i)" 
+                            class="btn btn-outline-secondary btn-sm p-1 toggle-btn"
+                            title="Show Password">
+                            <i [ngClass]="showPassword[i] ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+                          </button>
+                    </td>
+                    <td>
+                        <div class="password-field d-flex align-items-center">
+                          <!-- Password text -->
+                          <span class="password-text me-2" *ngIf="!showPassword[i]">{{ user.password | hidePassword }}</span>
+                          <span class="password-text me-2" *ngIf="showPassword[i]">{{ user.password }}</span>
+                      
+                          <!-- Eye toggle button -->
+                          
+                        </div>
+                      </td>
+              
+                    <td>{{ user.createdBy }}</td>
+                    <td>{{ user.createdOn | date }}</td>
+                    <td>{{ user.updatedBy }}</td>
+                    <td>{{ user.updatedOn | date }}</td>
+                    <td>{{ user.statusName }}</td>
+                    <td>
+                      <button class="btn btn-sm btn-warning me-2"  >Edit</button>
+                      <button class="btn btn-sm btn-danger" (click)="confirmDelete(user.id)" >Delete</button> 
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Standard Modal -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title mt-0">Add Menu</h5>
+    <button type="button" class="btn-close" aria-hidden="true" (click)=" this.showToast= false;modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+   <form (ngSubmit)="SaveUser()" [formGroup]="userForm">
+    <div class="row">
+
+
+
+      <div class="col-md-4 col-sm-12">
+        <div class="row">
+            <div class="col-4"><label style="padding-top: 3px;">User Name<span style="font-weight: bold; color: red;">*</span></label></div>
+            <div class="col-8">
+              <input class="form-control inputHeight" placeholder="Enter User Name" type="text" autocomplete="off" formControlName="username"
+              data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+              [ngClass]="{'is-invalid': submitted && form['username'].errors}" />
+            </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-12">
+        <div class="row">
+          <div class="col-4"><label style="padding-top: 3px;">Password</label></div>
+          <div class="col-8">
+            <input 
+              class="form-control inputHeight" 
+              placeholder="Enter Password" 
+              [ngClass]="{'is-invalid': submitted && form['password'].errors}"
+              type="password" 
+              autocomplete="off" 
+              formControlName="password"/>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-md-4 col-sm-12">
+        <div class="row">
+          <div class="col-4"><label style="padding-top: 3px;">Confirm Password</label></div>
+          <div class="col-8">
+            <input 
+              class="form-control inputHeight" 
+              placeholder="Confirm Password" 
+              [ngClass]="{'is-invalid': submitted && form['confirmPassword'].errors}"
+              type="password" 
+              autocomplete="off" 
+              formControlName="confirmPassword"/>
+          </div>
+        </div>
+      </div>
+            
+
+
+      <div class="col-md-4 col-sm-12">
+        <div class="row">
+            <div class="col-4"><label style="padding-top: 3px;">Tenant<span style="font-weight: bold; color: red;">*</span></label></div>
+            <div class="col-8">
+              <ng-select
+                class="custom-ng-select"
+                [ngClass]="{'is-invalid': submitted && form['tenantId'].errors}"
+                [items]="tenants" 
+                bindLabel="tenantName" 
+                bindValue="id" 
+                formControlName="tenantId"
+                [searchable]="true"
+                >
+              </ng-select>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-12">
+        <div class="row">
+            <div class="col-4"><label style="padding-top: 3px;">Role<span style="font-weight: bold; color: red;">*</span></label></div>
+            <div class="col-8">
+              <ng-select
+                class="custom-ng-select"
+                [ngClass]="{'is-invalid': submitted && form['roleId'].errors}"
+                [items]="roles" 
+                bindLabel="roleName" 
+                bindValue="id" 
+                formControlName="roleId"
+                [searchable]="true"
+                >
+              </ng-select>
+            </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-12 mt-3">
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-success btn-sm" id="btn-save-event">
+          Save
+        </button>
+      </div>
+    </div>
+   </form>
+  </div>
+</ng-template>
+
+
+ <!-- toaster for error list showing -->
+ <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer">
+  <div 
+    class="toast" 
+    role="alert" 
+    aria-live="assertive" 
+    aria-atomic="true" 
+    [ngClass]="{ 'show': showToast }" 
+    *ngIf="toastErrors.length">
+    <div class="toast-header text-danger">
+      <strong class="me-auto">Error</strong>
+      <button
+        type="button"
+        class="btn-close btn-close-black"
+        aria-label="Close"
+        (click)="hideToast()">
+      </button>
+    </div>
+    <div class="toast-body">
+      <ul class="text-danger mb-0">
+        <li *ngFor="let error of toastErrors">{{ error }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  

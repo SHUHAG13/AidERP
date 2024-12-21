@@ -1,0 +1,7 @@
+.toast-container {
+    z-index: 1099; /* Ensure it's above other content */
+  }
+  
+  .toast {
+    opacity: 1; /* Ensure visibility when using Angular's show logic */
+  }
