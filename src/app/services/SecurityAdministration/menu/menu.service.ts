@@ -33,7 +33,22 @@ export class MenuService {
   getMenuListByUserId(userId : any){
     return this.masterSevice.get<CustomResponse>(`Menu/GetByUserId?userId=${userId}`);
   }
+  getMenuById(id : any){
+    return this.masterSevice.get<CustomResponse>(`Menu/GetById?id=${id}`)
+  }
   getAllMenus(){
     return this.masterSevice.get<CustomResponse>('Menu/GetAll');
+  }
+
+  addMenu(menu : any){
+    return this.masterSevice.post<CustomResponse>('Menu/Add',menu);
+  }
+
+  updateMenu(menu : any){
+    return this.masterSevice.put<CustomResponse>('Menu/Update',menu);
+  }
+
+  deleteMenu(id: any){
+    return this.masterSevice.put<CustomResponse>('Menu/Delete',id);
   }
 }
