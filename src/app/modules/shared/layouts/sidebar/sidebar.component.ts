@@ -43,6 +43,7 @@ export class SidebarComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnInit() {
+    console.log('sidebar component called')
     this.initialize();
     this._scrollElement();
   }

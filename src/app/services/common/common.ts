@@ -18,4 +18,15 @@ export class Common{
   
         return { headers: headers };
     }
+
+    public static getLength(Data: any[]): number{
+        if(Data!=null && Data.length>0) return Data.length;
+        else return 0;
+    }
+
+    public static isNullOrEmpty(str: string){
+        if(str==null || str== undefined ||str == "undefined" || str == "") return true;
+        else return false;
+    }
+    
 }

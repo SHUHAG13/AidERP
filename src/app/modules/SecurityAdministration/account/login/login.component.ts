@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit{
             }
 
             this.setMenuList(() => {
-              this.router.navigate(['/']);
+              this.router.navigate(['']);
             });
             console.log(res)
           },
