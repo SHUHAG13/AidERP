@@ -32,28 +32,35 @@ export class UserComponent implements OnInit{
     tenants : TenantDTO[] = [];
     userForm!:FormGroup;
     submitted : boolean = false;
- 
+    isEdit = false;
+    showPassword: boolean[] = [];
+
     
     ngOnInit(): void {
 
       this.getAllroles();
       this.getAllUsers();
       this.getAllTenants();
-      this.userForm = this.fb.group({
-        username: ['', [Validators.required]],
-        roleId: ['', [Validators.required]],
-        password: ['', [Validators.required]],
-        confirmPassword: ['', [Validators.required]],
-        tenantId: ['', [Validators.required]]
-      }, {
-        validator: this.passwordsMatch('password', 'confirmPassword')
-      });
-      
-
-
+      this.userForm = this.createUserForm(this.isEdit);
     }
-    showPassword: boolean[] = [];
 
+    createUserForm(isEdit: boolean): FormGroup {
+      return this.fb.group(
+        {
+          id : [''],
+          username: ['', [Validators.required]],
+          roleId: ['', [Validators.required]],
+          password: ['', [Validators.required]],
+          confirmPassword: ['', [Validators.required]],
+          tenantId: ['', [Validators.required]],
+        },
+        {
+          validator: isEdit ? null : this.passwordsMatch('password', 'confirmPassword'),
+        }
+      );
+    }
+
+  
     togglePasswordVisibility(index: number): void {
       this.showPassword[index] = !this.showPassword[index];
     }
@@ -70,6 +77,7 @@ export class UserComponent implements OnInit{
 
     getFormData() {
       return {
+        id : this.userForm.get('id')?.value,
         username: this.userForm.get('username')?.value,
         roleId: this.userForm.get('roleId')?.value,
         password: this.userForm.get('password')?.value,
@@ -77,28 +85,39 @@ export class UserComponent implements OnInit{
       };
     }
 
-    SaveUser(){
+    SaveUser() {
       this.submitted = true;
-      if (this.userForm.invalid) {
+      console.log(this.userForm.value);
+      if (this.userForm.invalid && !this.isEdit) {
         this.displayValidationErrors();
         return;
       }
-  
+    
       this.showToast = false;
       const formData = this.getFormData();
+      if(!this.isEdit){
+        this.confirmAdd(formData);
+      }
+      else{
+        this.confirmUpdate(formData);
+      }
+      console.log('Form submitted successfully', formData);
+    }
+
+
+    confirmAdd(formData: any) {
       this.userService.addUser(formData).subscribe({
-        next: (res:CustomResponse) => {
-          if(res.success){
+        next: (res: CustomResponse) => {
+          if (res.success) {
             Swal.fire({
-              icon:'success',
-              title:'User added successfully!',
-              text:res.message || 'User has been added.',
-            }).then(()=>{
+              icon: 'success',
+              title: 'User added successfully!',
+              text: res.message || 'User has been added.',
+            }).then(() => {
               this.getAllUsers();
               this.closeModal();
-            })
-          }
-          else{
+            });
+          } else {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
@@ -106,18 +125,17 @@ export class UserComponent implements OnInit{
             });
           }
         },
-        error: (res:CustomResponse) => {
+        error: (res: CustomResponse) => {
           console.warn(res.message);
-      // Show error SweetAlert
-      Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: res.message || 'An error occurred. Please try again.',
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: res.message || 'An error occurred. Please try again.',
+          });
+        },
       });
-        }
-      })
-      console.log('Form submitted successfully', formData);
     }
+
     get form() {
       return this.userForm.controls;
     }
@@ -182,10 +200,10 @@ export class UserComponent implements OnInit{
       if (this.form['username']?.errors?.['required']) {
         this.toastErrors.push('UserName is required.');
       }
-      if (this.form['password']?.errors?.['required']) {
+      if (this.form['password']?.errors?.['required'] && !this.isEdit) {
         this.toastErrors.push('password is required.');
       }
-      if (this.form['confirmPassword'].errors?.['passwordMismatch']) {
+      if (this.form['confirmPassword'].errors?.['passwordMismatch'] && !this.isEdit) {
         this.toastErrors.push('Passwords do not match.');
       }
       if (this.form['roleId']?.errors?.['required']) {
@@ -224,10 +242,70 @@ export class UserComponent implements OnInit{
                 Swal.fire('Deleted!', 'User has been deleted.', 'success');
                 this.getAllUsers();
               }
+              else{
+                Swal.fire('Oops!', 'User cannot be updated.', 'error');
+              }
             },
             error : (e:any) => console.warn(e)
           })
         }
+      });
+    }
+
+
+    editUser(id:number,content:TemplateRef<any>){
+      this.isEdit = true;
+      this.createUserForm(this.isEdit);
+      this.userService.getUserById(id).subscribe({
+        next : (res:CustomResponse) =>{
+          if(res.success){
+            const user = res.data;
+            this.userForm.patchValue({
+              id: user.id,
+              tenantId:user.tenantId,
+              username:user.username,
+              password:user.password,
+              roleId:user.roleId
+            });
+            this.openModal(content)
+          }
+          else{
+            Swal.fire('Error!', 'Failed to fetch menu data.', 'error');
+          }
+        },
+        error: e => Swal.fire('Error!', 'An unexpected error occurred.', 'error')
+      })
+    }
+
+    updateUser(model:any){
+      this.userService.updateUser(model).subscribe({
+        next: (res:CustomResponse) => {
+          if(res.success){
+            this.modalService.dismissAll();
+            Swal.fire('Updated!', 'User has been updated.', 'success')
+            this.getAllUsers();
+          }
+          else{
+            Swal.fire('Oops!', 'User cannot be updated.', 'error');
+          }
+        },
+        error : e => console.warn(e)
+      })
+    }
+
+    confirmUpdate(data : any){
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#34c38f',
+        cancelButtonColor: '#f46a6a',
+        confirmButtonText: 'Yes, update it!'
+      }).then(result => {
+        if (result.isConfirmed) {
+            this.updateUser(data);
+          }
       });
     }
 

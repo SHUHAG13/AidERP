@@ -5,3 +5,15 @@
   .toast {
     opacity: 1; /* Ensure visibility when using Angular's show logic */
   }
+  .toggle-btn {
+    width: 1.5rem; /* Set a fixed width */
+    height: 1.5rem; /* Set a fixed height */
+    color: white;
+    transition: all 0.3s ease;
+  }
+  
+  .toggle-btn:hover {
+    transform: scale(1.1);
+  }
+  
+  

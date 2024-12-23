@@ -20,4 +20,11 @@ export class UserService {
   deleteUser(id:any){
     return this.masterSevice.put<CustomResponse>(`User/Delete?id=${id}`,null);
   }
+
+  getUserById(id:number){
+    return this.masterSevice.get<CustomResponse>(`User/GetById?id=${id}`)
+  }
+  updateUser(user:any){
+    return this.masterSevice.put<CustomResponse> (`User/Update`,user)
+  }
 }
