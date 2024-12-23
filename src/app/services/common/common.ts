@@ -17,8 +17,5 @@ export class Common{
         .set("Authorization", this.getToken());
   
         return { headers: headers };
-    }
-    public static searchList(){
-        
-    }
+    }   
 }
