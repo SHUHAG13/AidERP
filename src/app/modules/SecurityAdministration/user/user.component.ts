@@ -12,11 +12,12 @@ import { RoleDTO } from '../../../core/SecurityAdministration/role/roleDTO.model
 import { CustomResponse } from '../../../core/common/response';
 import { TenantDTO } from '../../../core/SecurityAdministration/Tenant/tenantDTO.model'; 
 import Swal from 'sweetalert2'
+import { FilterPipe } from '../../../services/common/pipes/filter.pipe';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule,HidePasswordPipe,ReactiveFormsModule,NgSelectModule,NgbPagination,FormsModule],
+  imports: [CommonModule,HidePasswordPipe,ReactiveFormsModule,NgSelectModule,NgbPagination,FormsModule,FilterPipe],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
@@ -35,8 +36,6 @@ export class UserComponent implements OnInit{
     submitted : boolean = false;
     isEdit = false;
     showPassword: boolean[] = [];
-
-    filteredUsers:UserDTO[] = [];
     pagedUsers:UserDTO[] = []; // Stores the users for the current page
     currentPage = 1; // Current page number
     pageSize = 18; // Number of rows per page
@@ -55,7 +54,7 @@ export class UserComponent implements OnInit{
     updatePagedUsers(): void {
       const startIndex = (this.currentPage - 1) * this.pageSize;
       const endIndex = startIndex + this.pageSize;
-      this.pagedUsers = this.filteredUsers  .slice(startIndex, endIndex);
+      this.pagedUsers = this.users.slice(startIndex, endIndex);
     }
 
     onPageChange(page: number) {
@@ -63,20 +62,6 @@ export class UserComponent implements OnInit{
       this.updatePagedUsers();
     }
 
-    onSearch() {
-      if(this.searchText){
-        this.filteredUsers = this.users.filter(u => 
-          u.name.toLocaleLowerCase().includes(this.searchText.toLocaleLowerCase()) ||
-          u.tenantName.toLocaleLowerCase().includes(this.searchText.toLocaleLowerCase()) ||
-          u.roleName.toLocaleLowerCase().includes(this.searchText.toLocaleLowerCase())
-        )
-      }
-      else{
-        this.filteredUsers = [...this.users]
-      }
-      //console.log(this.filteredUsers);
-      this.updatePagedUsers();
-    }
   
 
     createUserForm(isEdit: boolean): FormGroup {
@@ -104,7 +89,6 @@ export class UserComponent implements OnInit{
       this.userService.getAllUsers().subscribe({
         next: (res:CustomResponse) => {
           this.users = res.data;
-          this.filteredUsers = [...this.users];
           this.updatePagedUsers();
           console.log(this.users);
         }

@@ -13,8 +13,7 @@
                   type="text" 
                   class="form-control custom-input"
                   placeholder="Search by Username, Tenant, or Role"
-                  [(ngModel)]="searchText" 
-                  (input)="onSearch()">
+                  [(ngModel)]="searchText" >
               </div>
             </div>
             
@@ -45,7 +44,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of pagedUsers">
+                <tr *ngFor="let user of pagedUsers | SearchFilter:searchText">
                   <td>{{ user.id }}</td>
                   <td>{{ user.name }}</td>
                   <td>{{ user.roleName }}</td>
@@ -77,7 +76,7 @@
           <ngb-pagination
             [(page)]="currentPage"
             [pageSize]="pageSize"
-            [collectionSize]="filteredUsers.length"
+            [collectionSize]="users.length"
             [maxSize]="5"
             [size]="'sm'" 
             [boundaryLinks]="false"
