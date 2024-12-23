@@ -1,14 +1,15 @@
 <div class="container-fluid">
 <div class="row">
-    <div class="col-md-10 offset-md-1">
+    <div class="col-md-12">
         <div class="card">
-            <div class="card-header p-4">
+            <div class="card-header pt-0">
                 <div class="row">
                     <div class="col-9">
                         <h5>Menu List</h5>
+                        <input class="form-control form-control-sm" placeholder="Search here"  [(ngModel)]="searchText">
                     </div>
                     <div class="col-3 text-end">
-                        <a (click)="openModal(content)" class="btn btn-primary btn-sm">Add New</a>
+                        <a (click)="openModal(content)" class="btn btn-primary btn-sm">Add New <i class="bx bx-plus"></i></a>
                     </div>
                 </div>
             </div>
@@ -34,7 +35,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @for(menu of menuList; track $index){
+                        @for(menu of menuList | SearchFilter:searchText; track $index){
                             <tr>
                                 <td> {{menu.id}} </td>
                                 <td> {{menu.name}} </td>
@@ -50,8 +51,8 @@
                                 <td> {{menu.updatedOn | date}} </td>
                                 <td> {{menu.status}} </td>
                                 <td>
-                                  <button class="btn btn-sm btn-warning me-2" (click)="editMenu(menu.id, content)" >Edit</button>
-                                  <button class="btn btn-sm btn-danger" (click)="confirmDelete(menu.id)">Delete</button> 
+                                  <button class="btn btn-sm btn-warning me-2" (click)="editMenu(menu.id, content)" ><i class="bx bxs-pencil"></i></button>
+                                  <button class="btn btn-sm btn-danger" (click)="confirmDelete(menu.id)"><i class="bx bxs-trash"></i></button> 
                                 </td>
                             </tr>
                         }
