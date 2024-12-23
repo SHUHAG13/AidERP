@@ -3,34 +3,56 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header pt-0">
-                <div class="row">
-                    <div class="col-9">
-                        <h5>Menu List</h5>
-                        <input class="form-control form-control-sm" placeholder="Search here"  [(ngModel)]="searchText">
-                    </div>
-                    <div class="col-3 text-end">
-                        <a (click)="openModal(content)" class="btn btn-primary btn-sm">Add New <i class="bx bx-plus"></i></a>
-                    </div>
+              <div class="row align-items-center">
+                <!-- Title Section -->
+                <div class="col-sm-12 col-md-3">
+                  <h5 class="mb-0">Menu List</h5>
                 </div>
+            
+                <!-- Search Section -->
+                <div class="col-9 col-md-6 text-center">
+                  <div class="input-group">
+                    <input 
+                      type="text" 
+                      class="form-control form-control-sm" 
+                      placeholder="Search..." 
+                      aria-label="Search"
+                      [(ngModel)]="searchText"
+                      >
+                    <button class="btn btn-outline-primary btn-sm" type="button">
+                      <i class="bx bx-search-alt-2"></i>
+                    </button>
+                  </div>
+                </div>
+            
+                <!-- Add New Button -->
+                <div class="col-3 col-md-3 text-end">
+                  <a (click)="openModal(content)" class="btn btn-info btn-sm fs-6">
+                    Add New <i class="bx bx-plus"></i>
+                  </a>
+                </div>
+              </div>
             </div>
+            
+            
             <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-sm m-0">
                       <thead>
                         <tr>
                           <th>#ID</th>
-                          <th>Name</th>
-                          <th>Short Name</th>
+                          <th (click)="menuSort('name')">Name</th>
+                          <th (click)="menuSort('shortName')">Short Name</th>
                           <th>Url</th>
                           <th>Icon Url</th>
                           <th>SL</th>
-                          <th>Parent MenuID</th>
-                          <th>ModuleID</th>
-                          <th>CreatedBy</th>
-                          <th>CreatedOn</th>
-                          <th>UpdatedBy</th>
-                          <th>UpdatedOn</th>
-                          <th>Status</th>
+                          <th (click)="menuSort('parentMenuId')">Parent MenuID</th>
+                          <th (click)="menuSort('moduleId')">ModuleID</th>
+                          <th (click)="menuSort('createdBy')">CreatedBy</th>
+                          <th (click)="menuSort('createdOn')">CreatedOn</th>
+                          <th (click)="menuSort('updatedBy')">UpdatedBy</th>
+                          <th (click)="menuSort('updatedOn')">UpdatedOn</th>
+                          <th (click)="menuSort('status')">Status</th>
                           <th>--Action--</th>
                         </tr>
                       </thead>
