@@ -17,6 +17,9 @@ export class Common{
         .set("Authorization", this.getToken());
   
         return { headers: headers };
+<<<<<<< HEAD
+    }   
+=======
     }
 
     public static getLength(Data: any[]): number{
@@ -29,4 +32,5 @@ export class Common{
         else return false;
     }
     
+>>>>>>> 4c9dae7255cb319221ce639cedf43c684a958f18
 }

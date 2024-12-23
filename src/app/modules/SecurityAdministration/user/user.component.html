@@ -2,12 +2,26 @@
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="card-header p-4">
-          <div class="row">
-            <div class="col-9">
+        <div class="card-header mt-0 p-1">
+          <div class="row align-items-center">
+            <div class="col-4">
               <h5>User List</h5>
             </div>
-            <div class="col-3 text-end">
+            <div class="col-4 text-center mt-0">
+              <div class="input-group input-group-sm custom-input-group">
+                <input 
+                  type="text" 
+                  class="form-control custom-input"
+                  placeholder="Search by Username, Tenant, or Role"
+                  [(ngModel)]="searchText" 
+                  (input)="onSearch()">
+              </div>
+            </div>
+            
+            
+            
+            
+            <div class="col-4 text-end">
               <a class="btn btn-primary btn-sm" (click)="isEdit=false; openModal(content)">Add New</a>
             </div>
           </div>
@@ -31,16 +45,15 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let user of users; let i = index">
+                <tr *ngFor="let user of pagedUsers">
                   <td>{{ user.id }}</td>
                   <td>{{ user.name }}</td>
                   <td>{{ user.roleName }}</td>
                   <td>{{ user.tenantName }}</td>
-                  <td (dblclick)="togglePasswordVisibility(i)" style="cursor: pointer;">
+                  <td (dblclick)="togglePasswordVisibility(user.id)" style="cursor: pointer;">
                     <div class="password-field d-flex align-items-center">
-                      <!-- Password text -->
-                      <span class="password-text me-2" *ngIf="!showPassword[i]">{{ user.password | hidePassword }}</span>
-                      <span class="password-text me-2" *ngIf="showPassword[i]">{{ user.password }}</span>
+                      <span class="password-text me-2" *ngIf="!showPassword[user.id]">{{ user.password | hidePassword }}</span>
+                      <span class="password-text me-2" *ngIf="showPassword[user.id]">{{ user.password }}</span>
                     </div>
                   </td>
                   <td>{{ user.createdBy }}</td>
@@ -49,13 +62,28 @@
                   <td>{{ user.updatedOn | date }}</td>
                   <td>{{ user.statusName }}</td>
                   <td>
-                    <button class="btn btn-sm btn-warning me-2" (click)="editUser(user.id,content)">Edit</button>
-                    <button class="btn btn-sm btn-danger" (click)="confirmDelete(user.id)">Delete</button> 
+                    <button class="btn btn-sm btn-warning me-2" (click)="editUser(user.id, content)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="confirmDelete(user.id)">
+                      <i class="fas fa-trash"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
+          <!-- Pagination -->
+          <ngb-pagination
+            [(page)]="currentPage"
+            [pageSize]="pageSize"
+            [collectionSize]="filteredUsers.length"
+            [maxSize]="5"
+            [size]="'sm'" 
+            [boundaryLinks]="false"
+            class="compact-pagination"
+            (pageChange)="onPageChange($event)">
+          </ngb-pagination>
         </div>
       </div>
     </div>
@@ -65,10 +93,12 @@
 
 
 
+
+
   <!-- Standard Modal -->
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h5 class="modal-title mt-0">Add Menu</h5>
+    <h5 class="modal-title mt-0">Add User</h5>
     <button type="button" class="btn-close" aria-hidden="true" (click)=" this.showToast= false;modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">

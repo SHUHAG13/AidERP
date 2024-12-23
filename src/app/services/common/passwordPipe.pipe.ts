@@ -6,6 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class HidePasswordPipe implements PipeTransform {
   transform(value: string): string {
-    return '********';
+    return '*******';
   }
 }

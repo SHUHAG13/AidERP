@@ -54,7 +54,7 @@ export class AuthService {
   // refresh token
 
   async tryRefreshingTokens(): Promise<boolean> {
-
+    console.log("Hello from Auth Gurard");
     try{
       const jwt: any = localStorage.getItem('token');
       const refreshToken: any = localStorage.getItem('refreshToken');
