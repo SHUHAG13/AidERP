@@ -10,6 +10,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomResponse } from '../../../../core/common/response';
 import Swal from 'sweetalert2';
 import { FilterPipe } from '../../../../services/common/pipes/filter.pipe';
+import { Common } from '../../../../services/common/common';
 
 
 @Component({
@@ -273,4 +274,8 @@ export class MenuComponent implements OnInit{
       });
     }
 
+    // for menu sort
+    menuSort(column : keyof MenuListDTO){
+      Common.arraySort(this.menuList,column)
+    }
 }
