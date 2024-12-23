@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { UserService } from '../../../services/SecurityAdministration/user/user.service';
 import { CommonModule } from '@angular/common';
-import { HidePasswordPipe } from '../../../services/common/passwordPipe.pipe';
+import { HidePasswordPipe } from '../../../services/common/pipes/passwordPipe.pipe';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
