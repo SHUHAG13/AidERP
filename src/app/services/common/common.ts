@@ -18,4 +18,7 @@ export class Common{
   
         return { headers: headers };
     }
+    public static searchList(){
+        
+    }
 }

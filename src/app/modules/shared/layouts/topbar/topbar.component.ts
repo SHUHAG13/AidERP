@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
@@ -7,6 +7,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
+import { UserService } from '../../../../services/SecurityAdministration/user/user.service';
+import { CustomResponse } from '../../../../core/common/response';
 
 @Component({
   selector: 'app-topbar',
@@ -22,6 +24,9 @@ export class TopbarComponent implements OnInit {
   flagvalue : any;
   countryName : any;
   valueset : any;
+
+  userService = inject(UserService);
+  currentUser: any;
 
   constructor(
               @Inject(DOCUMENT) private document: any,
@@ -49,7 +54,7 @@ export class TopbarComponent implements OnInit {
   ngOnInit() {
     this.openMobileMenu = false;
     this.element = document.documentElement;
-
+    this.getCurrentUser();
     this.cookieValue = this._cookiesService.get('lang');
     const val = this.listLang.filter(x => x.lang === this.cookieValue);
     this.countryName = val.map(element => element.text);
@@ -58,6 +63,15 @@ export class TopbarComponent implements OnInit {
     } else {
       this.flagvalue = val.map(element => element.flag);
     }
+  }
+
+  getCurrentUser(){
+    this.userService.getCurrentUser().subscribe({
+      next: (res:CustomResponse) => {
+        console.log(res);
+        this.currentUser = res.data;
+      }
+    })
   }
 
   setLanguage(text: string, lang: string, flag: string) {

@@ -2,9 +2,9 @@ import { Component, inject, OnInit, TemplateRef } from '@angular/core';
 import { UserService } from '../../../services/SecurityAdministration/user/user.service';
 import { CommonModule } from '@angular/common';
 import { HidePasswordPipe } from '../../../services/common/passwordPipe.pipe';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { RoleService } from '../../../services/SecurityAdministration/role/role.service';
 import { TenantService } from '../../../services/SecurityAdministration/tenant/tenant.service';
 import { UserDTO } from '../../../core/SecurityAdministration/user/userDTO.model';
@@ -16,11 +16,12 @@ import Swal from 'sweetalert2'
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule,HidePasswordPipe,ReactiveFormsModule,NgSelectModule],
+  imports: [CommonModule,HidePasswordPipe,ReactiveFormsModule,NgSelectModule,NgbPagination,FormsModule],
   templateUrl: './user.component.html',
   styleUrl: './user.component.scss'
 })
 export class UserComponent implements OnInit{
+
     private userService = inject(UserService);
     private modalService = inject(NgbModal)
     private roleService = inject(RoleService);
@@ -35,6 +36,13 @@ export class UserComponent implements OnInit{
     isEdit = false;
     showPassword: boolean[] = [];
 
+    filteredUsers:UserDTO[] = [];
+    pagedUsers:UserDTO[] = []; // Stores the users for the current page
+    currentPage = 1; // Current page number
+    pageSize = 18; // Number of rows per page
+    searchText:string = '';
+    
+
     
     ngOnInit(): void {
 
@@ -43,6 +51,33 @@ export class UserComponent implements OnInit{
       this.getAllTenants();
       this.userForm = this.createUserForm(this.isEdit);
     }
+
+    updatePagedUsers(): void {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      this.pagedUsers = this.filteredUsers  .slice(startIndex, endIndex);
+    }
+
+    onPageChange(page: number) {
+      this.currentPage = page;
+      this.updatePagedUsers();
+    }
+
+    onSearch() {
+      if(this.searchText){
+        this.filteredUsers = this.users.filter(u => 
+          u.name.toLocaleLowerCase().includes(this.searchText.toLocaleLowerCase()) ||
+          u.tenantName.toLocaleLowerCase().includes(this.searchText.toLocaleLowerCase()) ||
+          u.roleName.toLocaleLowerCase().includes(this.searchText.toLocaleLowerCase())
+        )
+      }
+      else{
+        this.filteredUsers = [...this.users]
+      }
+      //console.log(this.filteredUsers);
+      this.updatePagedUsers();
+    }
+  
 
     createUserForm(isEdit: boolean): FormGroup {
       return this.fb.group(
@@ -69,6 +104,8 @@ export class UserComponent implements OnInit{
       this.userService.getAllUsers().subscribe({
         next: (res:CustomResponse) => {
           this.users = res.data;
+          this.filteredUsers = [...this.users];
+          this.updatePagedUsers();
           console.log(this.users);
         }
 

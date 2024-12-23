@@ -27,4 +27,7 @@ export class UserService {
   updateUser(user:any){
     return this.masterSevice.put<CustomResponse> (`User/Update`,user)
   }
+  getCurrentUser(){
+    return this.masterSevice.get<CustomResponse>(`User/CurrentUser`);
+  }
 }
