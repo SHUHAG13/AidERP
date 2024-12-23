@@ -8,12 +8,18 @@ import { UserComponent } from './modules/SecurityAdministration/user/user.compon
 
 export const routes: Routes = [
     { path: 'login', component : LoginComponent},
-    { path: '', component: MenuComponent, canActivate : [authGuard]},
     { 
-        path: 'security/administration/menu/list',
-        loadComponent : ()=> import('./modules/SecurityAdministration/menu/menu/menu.component')
-        .then(m => m.MenuComponent) 
+        path: '', 
+        component: LayoutsComponent, 
+        canActivate : [authGuard],
+        children: [
+            { 
+                path: 'security/administration/menu/list',
+                loadComponent : ()=> import('./modules/SecurityAdministration/menu/menu/menu.component')
+                .then(m => m.MenuComponent) 
+            },
+            {path:'user',component:UserComponent}
+        ]
     },
-    {path:'user',component:UserComponent},
     { path: '**', component: Page404Component },
 ];
