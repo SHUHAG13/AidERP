@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MasterService } from '../../common/master.service';
-import { UserModuleMenuDTO } from '../../../core/SecurityAdministration/menu/user-module-menu-dto';
+import { UserModuleMenuDTO } from '../../../core/securityAdministration/menu/user-module-menu-dto';
 import { CustomResponse } from '../../../core/common/response';
 
 

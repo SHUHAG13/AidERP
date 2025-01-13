@@ -6,8 +6,8 @@ import { MENU } from './menu';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CommonModule } from '@angular/common';
 import { SimplebarAngularModule } from 'simplebar-angular';
-import { MenuService } from '../../../../services/SecurityAdministration/menu/menu.service';
-import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/SecurityAdministration/menu/user-module-menu-dto';
+import { MenuService } from '../../../../services/securityAdministration/menu/menu.service';
+import { ParentMenuDTO, UserModuleMenuDTO } from '../../../../core/securityAdministration/menu/user-module-menu-dto';
 
 
 @Component({

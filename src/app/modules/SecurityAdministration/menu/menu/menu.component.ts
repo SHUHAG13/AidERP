@@ -1,16 +1,16 @@
 import { Component, inject, NO_ERRORS_SCHEMA, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
-import { MenuListDTO } from '../../../../core/SecurityAdministration/menu/menu.model';
-import { MenuService } from '../../../../services/SecurityAdministration/menu/menu.service';
+import { MenuListDTO } from '../../../../core/securityAdministration/menu/menu.model';
+import { MenuService } from '../../../../services/securityAdministration/menu/menu.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModuleService } from '../../../../services/SecurityAdministration/module/module.service';
-import { ModuleDTO } from '../../../../core/SecurityAdministration/module/module.model';
+import { ModuleService } from '../../../../services/securityAdministration/module/module.service';
+import { ModuleDTO } from '../../../../core/securityAdministration/module/module.model';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomResponse } from '../../../../core/common/response';
 import Swal from 'sweetalert2';
-import { FilterPipe } from '../../../../services/common/pipes/filter.pipe';
-import { Common } from '../../../../services/common/common';
+import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
+import { Common } from '../../../../shared/library/common';
 
 
 @Component({

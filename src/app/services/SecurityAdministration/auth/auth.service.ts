@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { MasterService } from '../../common/master.service';
 import { Router } from '@angular/router';
-import { Login } from '../../../core/SecurityAdministration/auth/login';
+import { Login } from '../../../core/securityAdministration/auth/login';
 import { CustomResponse } from '../../../core/common/response';
 
 @Injectable({
