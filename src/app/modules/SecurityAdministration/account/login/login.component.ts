@@ -3,8 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
-import { MenuService } from '../../../../services/SecurityAdministration/menu/menu.service';
+import { AuthService } from '../../../../services/securityAdministration/auth/auth.service';
+import { MenuService } from '../../../../services/securityAdministration/menu/menu.service';
 import { CustomResponse } from '../../../../core/common/response';
 
 
