@@ -28,11 +28,16 @@ export class MenuService {
     this._menuList = menuList;
     localStorage.setItem('MenuList', JSON.stringify(menuList));
   }
-  // end
+  
+  // getMenuListByUserId(userId : any){
+  //   return this.masterSevice.get<CustomResponse>(`Menu/GetByUserId?userId=${userId}`);
+  // }
 
   getMenuListByUserId(userId : any){
-    return this.masterSevice.get<CustomResponse>(`Menu/GetByUserId?userId=${userId}`);
+    return this.masterSevice.get<CustomResponse>(`UserWiseNavBar/GetByUserId?userId=${userId}`);
   }
+  // end
+
   getMenuById(id : any){
     return this.masterSevice.get<CustomResponse>(`Menu/GetById?id=${id}`)
   }
