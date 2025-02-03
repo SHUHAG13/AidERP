@@ -8,6 +8,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';  // Loader for
 import { HttpClient } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
@@ -40,6 +44,12 @@ export const appConfig: ApplicationConfig = {
     ),
     provideHttpClient(
       withInterceptorsFromDi()
-    )
+    ),
+    provideAnimationsAsync(),
+    providePrimeNG({ 
+        theme: {
+            preset: Aura
+        }
+    })
   ]
 };

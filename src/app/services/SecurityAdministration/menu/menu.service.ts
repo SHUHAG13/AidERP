@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MasterService } from '../../common/master.service';
-import { UserModuleMenuDTO } from '../../../core/securityAdministration/menu/user-module-menu-dto';
+import { UserModuleMenuDTO } from '../../../core/SecurityAdministration/menu/user-module-menu-dto';
 import { CustomResponse } from '../../../core/common/response';
 
 
@@ -55,5 +55,16 @@ export class MenuService {
 
   deleteMenu(id: any){
     return this.masterSevice.put<CustomResponse>('Menu/Delete',id);
+  }
+
+  // for PrimeNG DataTable
+  getMenusForDataTable(first: number, rows: number, sortField: string, sortOrder: number){
+    // const params = {
+    //   first: first.toString(),
+    //   rows: rows.toString(),
+    //   sortField: sortField,
+    //   sortOrder: sortOrder.toString()
+    // };
+    return this.masterSevice.get<CustomResponse>(`Menu/GetMenuForDataTable?first=${first}&rows=${rows}&sortField=${sortField}&sortOrder=${sortOrder}`);
   }
 }
