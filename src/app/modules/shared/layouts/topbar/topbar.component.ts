@@ -6,8 +6,8 @@ import { LanguageService } from '../../../../services/language.service';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SimplebarAngularModule } from 'simplebar-angular';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthService } from '../../../../services/securityAdministration/auth/auth.service';
-import { UserService } from '../../../../services/securityAdministration/user/user.service';
+import { AuthService } from '../../../../services/SecurityAdministration/auth/auth.service';
+import { UserService } from '../../../../services/SecurityAdministration/user/user.service';
 import { CustomResponse } from '../../../../core/common/response';
 
 @Component({

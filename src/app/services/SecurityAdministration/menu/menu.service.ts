@@ -58,13 +58,12 @@ export class MenuService {
   }
 
   // for PrimeNG DataTable
-  getMenusForDataTable(first: number, rows: number, sortField: string, sortOrder: number){
-    // const params = {
-    //   first: first.toString(),
-    //   rows: rows.toString(),
-    //   sortField: sortField,
-    //   sortOrder: sortOrder.toString()
-    // };
-    return this.masterSevice.get<CustomResponse>(`Menu/GetMenuForDataTable?first=${first}&rows=${rows}&sortField=${sortField}&sortOrder=${sortOrder}`);
+  getMenusForDataTable(first: number, rows: number, searchValue: string){
+    const params = {
+      PageNumber: first,
+      PageSize: rows,
+      SearchValue: searchValue.toString()
+    };
+    return this.masterSevice.post<CustomResponse>(`Menu/GetMenuForDataTable`,params);
   }
 }

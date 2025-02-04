@@ -1,41 +1,56 @@
-<p-table
-  #dt2
-  [value]="menus" 
-  [paginator]="true" 
-  [rows]="5" 
-  [totalRecords]="totalRecords" 
-  [rowsPerPageOptions]="[5, 10, 20]"
-  (onLazyLoad)="loadMenus($event)"
-  [globalFilterFields]="['employee.name', 'employee.position', 'employee.salary']"
-  >
-    <ng-template #caption>
-      <div class="flex">
-          <p-iconfield iconPosition="left" class="ml-auto">
-              <p-inputicon>
-                  <i class="pi pi-search"></i>
-              </p-inputicon>
-              <input
-                  pInputText
-                  type="text"
-                  (input)="dt2.filterGlobal($event.target.value, 'contains')"
-                  placeholder="Search keyword"
-              />
-          </p-iconfield>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="header">
+<div class="card">
+  <p-table 
+      #dt1 
+      [value]="menus" 
+      [paginator]="true" 
+      [rows]="5" 
+      [totalRecords]="totalRecords" 
+      [rowsPerPageOptions]="[5, 10, 20]" 
+      [globalFilterFields]="['name']">
+  <ng-template #caption>
+      <p-iconfield iconPosition="left">
+          <p-inputicon>
+              <i class="pi pi-search"></i>
+          </p-inputicon>
+          <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
+      </p-iconfield>
+  </ng-template>
+  <ng-template pTemplate="header">
       <tr>
-        <th>Name</th>
-        <th>Position</th>
-        <th>Salary</th>
+        <th>#ID</th>
+        <th pSortableColumn="name" style="width:20%">
+          Name <p-sortIcon field="name" />
+        </th>
+        <th>Short Name</th>
+        <th>Url</th>
+        <th>Icon Url</th>
+        <th>SL</th>
+        <th>Parent MenuID</th>
+        <th>ModuleID</th>
+        <th>CreatedBy</th>
+        <th>CreatedOn</th>
+        <th>UpdatedBy</th>
+        <th>UpdatedOn</th>
+        <th>Status</th>
       </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-employee>
+  </ng-template>
+  <ng-template pTemplate="body" let-menu>
       <tr>
-        <td>{{employee.name}}</td>
-        <td>{{employee.position}}</td>
-        <td>{{employee.salary}}</td>
+        <td> {{menu.id}} </td>
+        <td> {{menu.name}} </td>
+        <td> {{menu.shortName}} </td>
+        <td> {{menu.url}} </td>
+        <td> {{menu.iconUrl}} </td>
+        <td> {{menu.slNo}} </td>
+        <td> {{menu.parentMenuId}} </td>
+        <td> {{menu.moduleId}} </td>
+        <td> {{menu.createdBy}} </td>
+        <td> {{menu.createdOn | date}} </td>
+        <td> {{menu.updatedBy}} </td>
+        <td> {{menu.updatedOn | date}} </td>
+        <td> {{menu.status}} </td>
       </tr>
-    </ng-template>
-  </p-table>
-  
+  </ng-template>
+</p-table>
+
+</div>

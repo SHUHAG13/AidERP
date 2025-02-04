@@ -11,6 +11,10 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import Lara from '@primeng/themes/lara';
+import Material from '@primeng/themes/material';
+import Nora from '@primeng/themes/nora';
+
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -48,7 +52,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({ 
         theme: {
-            preset: Aura
+            preset: Lara
         }
     })
   ]
