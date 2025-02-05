@@ -12,7 +12,7 @@
           <p-inputicon>
               <i class="pi pi-search"></i>
           </p-inputicon>
-          <input pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
+          <input pSize="small" pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
       </p-iconfield>
   </ng-template>
   <ng-template pTemplate="header">

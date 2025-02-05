@@ -1,19 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button'; 
-import { TagModule } from 'primeng/tag';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectModule } from 'primeng/select';
+
 import { MenuService } from '../../../services/SecurityAdministration/menu/menu.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-menu-for-ngprime-data-table',
   standalone: true,
-  imports: [TableModule, ButtonModule,TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule, SelectModule,CommonModule],
+  imports: [TableModule, IconFieldModule, InputTextModule, InputIconModule,CommonModule],
   templateUrl: './menu-for-ngprime-data-table.component.html'
 })
 export class MenuForNGPrimeDataTableComponent implements OnInit{
