@@ -1,16 +1,16 @@
 import { Component, inject, OnInit, TemplateRef } from '@angular/core';
-import { UserService } from '../../../services/securityAdministration/user/user.service';
+import { UserService } from '../../../services/SecurityAdministration/user/user.service';
 import { CommonModule } from '@angular/common';
 import { HidePasswordPipe } from '../../../shared/pipes/passwordPipe.pipe';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { RoleService } from '../../../services/securityAdministration/role/role.service';
-import { TenantService } from '../../../services/securityAdministration/tenant/tenant.service';
-import { UserDTO } from '../../../core/securityAdministration/user/userDTO.model';
-import { RoleDTO } from '../../../core/securityAdministration/role/roleDTO.model';
+import { RoleService } from '../../../services/SecurityAdministration/role/role.service';
+import { TenantService } from '../../../services/SecurityAdministration/tenant/tenant.service';
+import { UserDTO } from '../../../core/SecurityAdministration/user/userDTO.model';
+import { RoleDTO } from '../../../core/SecurityAdministration/role/roleDTO.model';
 import { CustomResponse } from '../../../core/common/response';
-import { TenantDTO } from '../../../core/securityAdministration/Tenant/tenantDTO.model'; 
+import { TenantDTO } from '../../../core/SecurityAdministration/Tenant/tenantDTO.model'; 
 import Swal from 'sweetalert2'
 import { FilterPipe } from '../../../shared/pipes/filter.pipe';
 
