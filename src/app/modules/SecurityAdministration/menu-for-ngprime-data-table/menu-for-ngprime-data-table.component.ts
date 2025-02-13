@@ -25,10 +25,15 @@ export class MenuForNGPrimeDataTableComponent implements OnInit{
 
   loadMenus(event: any) {
     console.log(event)
-    const { first, rows, sortField, sortOrder } = event;
-    this.menuService.getMenusForDataTable(1, rows,'').subscribe(data => {
+    const first1 = event.first; // First record index (start of current page)
+    const rows1 = event.rows;   // Number of rows per page (e.g., 5, 10, 20)
+    const page = Math.floor(first1 / rows1); // Calculate the zero-based page number
+    const { rows, sortField, sortOrder } = event;
+    this.menuService.getMenusForDataTable(page, rows,'').subscribe(data => {
+      console.log(data)
       this.menus = data.data.data;
-      this.totalRecords = data.data.data.length;
+      this.totalRecords = data.data.totalRecords;
+      console.log(this.totalRecords)
     });
   }
 }
