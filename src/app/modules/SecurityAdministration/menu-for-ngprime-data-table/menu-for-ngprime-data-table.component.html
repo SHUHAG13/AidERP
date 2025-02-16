@@ -6,112 +6,52 @@
       [rows]="5" 
       [totalRecords]="totalRecords" 
       [rowsPerPageOptions]="[5, 10, 20]" 
-      [globalFilterFields]="['name','iconUrl']"
-      [ngClass]="'p-datatable-sm'"
-      [tableStyle]="{ 'min-width': '50rem' }"
+      (onLazyLoad)="loadMenus($event)"
+      [lazy]="true"
       >
-  <ng-template #caption>
-      <p-iconfield iconPosition="left">
-          <p-inputicon>
-              <i class="pi pi-search"></i>
-          </p-inputicon>
-          <input pSize="small" pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
-      </p-iconfield>
-  </ng-template>
-  <ng-template #header >
-      <tr>
-        <th>#ID</th>
-        <th pSortableColumn="name" style="width:20%">
-          Name <p-sortIcon field="name" />
-        </th>
-        <th>Short Name</th>
-        <th>Url</th>
-        <th>Icon Url</th>
-        <th>SL</th>
-        <th>Parent MenuID</th>
-        <th>ModuleID</th>
-        <th>CreatedBy</th>
-        <th>CreatedOn</th>
-        <th>UpdatedBy</th>
-        <th>UpdatedOn</th>
-        <th>Status</th>
-      </tr>
-  </ng-template>
-  <ng-template #body let-menu>
-      <tr>
-        <td> {{menu.id}} </td>
-        <td> {{menu.name}} </td>
-        <td> {{menu.shortName}} </td>
-        <td> {{menu.url}} </td>
-        <td> {{menu.iconUrl}} </td>
-        <td> {{menu.slNo}} </td>
-        <td> {{menu.parentMenuId}} </td>
-        <td> {{menu.moduleId}} </td>
-        <td> {{menu.createdBy}} </td>
-        <td> {{menu.createdOn | date}} </td>
-        <td> {{menu.updatedBy}} </td>
-        <td> {{menu.updatedOn | date}} </td>
-        <td> {{menu.status}} </td>
-      </tr>
-  </ng-template>
-</p-table>
-
-</div>
-
-<div class="card">
-  <p-table 
-      #dt1 
-      [value]="menus" 
-      [paginator]="true" 
-      [rows]="5" 
-      [totalRecords]="totalRecords" 
-      [rowsPerPageOptions]="[5, 10, 20]" 
-      [globalFilterFields]="['name','iconUrl']"
-      >
-  <ng-template #caption>
-      <p-iconfield iconPosition="left">
-          <p-inputicon>
-              <i class="pi pi-search"></i>
-          </p-inputicon>
-          <input pSize="small" pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
-      </p-iconfield>
-  </ng-template>
-  <ng-template #header >
-      <tr>
-        <th>#ID</th>
-        <th pSortableColumn="name" style="width:20%">
-          Name <p-sortIcon field="name" />
-        </th>
-        <th>Short Name</th>
-        <th>Url</th>
-        <th>Icon Url</th>
-        <th>SL</th>
-        <th>Parent MenuID</th>
-        <th>ModuleID</th>
-        <th>CreatedBy</th>
-        <th>CreatedOn</th>
-        <th>UpdatedBy</th>
-        <th>UpdatedOn</th>
-        <th>Status</th>
-      </tr>
-  </ng-template>
-  <ng-template #body let-menu>
-      <tr>
-        <td> {{menu.id}} </td>
-        <td> {{menu.name}} </td>
-        <td> {{menu.shortName}} </td>
-        <td> {{menu.url}} </td>
-        <td> {{menu.iconUrl}} </td>
-        <td> {{menu.slNo}} </td>
-        <td> {{menu.parentMenuId}} </td>
-        <td> {{menu.moduleId}} </td>
-        <td> {{menu.createdBy}} </td>
-        <td> {{menu.createdOn | date}} </td>
-        <td> {{menu.updatedBy}} </td>
-        <td> {{menu.updatedOn | date}} </td>
-        <td> {{menu.status}} </td>
-      </tr>
-  </ng-template>
-</p-table>
-
+    <ng-template #caption>
+        <p-iconfield iconPosition="left">
+            <p-inputicon>
+                <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input pSize="small" pInputText type="text" (keydown.enter)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
+        </p-iconfield>
+    </ng-template>
+    <ng-template #header >
+        <tr>
+          <th>#ID</th>
+          <th pSortableColumn="name" style="width:20%">
+            Name <p-sortIcon field="name" />
+          </th>
+          <th>Short Name</th>
+          <th>Url</th>
+          <th>Icon Url</th>
+          <th>SL</th>
+          <th>Parent MenuID</th>
+          <th>ModuleID</th>
+          <th>CreatedBy</th>
+          <th>CreatedOn</th>
+          <th>UpdatedBy</th>
+          <th>UpdatedOn</th>
+          <th>Status</th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-menu>
+        <tr>
+          <td> {{menu.id}} </td>
+          <td> {{menu.name}} </td>
+          <td> {{menu.shortName}} </td>
+          <td> {{menu.url}} </td>
+          <td> {{menu.iconUrl}} </td>
+          <td> {{menu.slNo}} </td>
+          <td> {{menu.parentMenuId}} </td>
+          <td> {{menu.moduleId}} </td>
+          <td> {{menu.createdBy}} </td>
+          <td> {{menu.createdOn | date}} </td>
+          <td> {{menu.updatedBy}} </td>
+          <td> {{menu.updatedOn | date}} </td>
+          <td> {{menu.status}} </td>
+        </tr>
+    </ng-template>
+  </p-table>
 </div>

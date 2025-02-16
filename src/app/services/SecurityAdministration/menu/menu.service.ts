@@ -58,12 +58,7 @@ export class MenuService {
   }
 
   // for PrimeNG DataTable
-  getMenusForDataTable(first: number, rows: number, searchValue: string){
-    const params = {
-      PageNumber: first,
-      PageSize: rows,
-      SearchValue: searchValue.toString()
-    };
+  getMenusForDataTable(params : any){
     return this.masterSevice.post<CustomResponse>(`Menu/GetMenuForDataTable`,params);
   }
 }
