@@ -6,9 +6,6 @@
       [rows]="5" 
       [totalRecords]="totalRecords" 
       [rowsPerPageOptions]="[5, 10, 20]" 
-      [globalFilterFields]="['name','iconUrl']"
-      [ngClass]="'p-datatable-sm'"
-      [tableStyle]="{ 'min-width': '50rem' }"
       (onLazyLoad)="loadMenus($event)"
       [lazy]="true"
       >
@@ -17,7 +14,7 @@
           <p-inputicon>
               <i class="pi pi-search"></i>
           </p-inputicon>
-          <input pSize="small" pInputText type="text" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
+          <input pSize="small" pInputText type="text" (keydown.enter)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
       </p-iconfield>
   </ng-template>
   <ng-template #header >

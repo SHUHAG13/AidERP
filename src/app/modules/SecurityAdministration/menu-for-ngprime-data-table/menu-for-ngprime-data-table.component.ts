@@ -20,16 +20,23 @@ export class MenuForNGPrimeDataTableComponent implements OnInit{
   constructor(private menuService : MenuService){}
 
   ngOnInit(): void {
-    this.loadMenus({})
+    this.loadMenus({first:0,rows:5})
   }
 
   loadMenus(event: any) {
     console.log(event)
-    const first1 = event.first; // First record index (start of current page)
-    const rows1 = event.rows;   // Number of rows per page (e.g., 5, 10, 20)
-    const page = Math.floor(first1 / rows1); // Calculate the zero-based page number
-    const { rows, sortField, sortOrder } = event;
-    this.menuService.getMenusForDataTable(page, rows,'').subscribe(data => {
+    const first = event.first; // First record index (start of current page)
+    const rows = event.rows;   // Number of rows per page (e.g., 5, 10, 20)
+    const pageNumber = Math.floor(first / rows); // Calculate the zero-based page number
+    const searchValue = event.globalFilter;
+
+    const params = {
+      PageNumber: pageNumber,
+      PageSize: rows,
+      SearchValue: searchValue
+    };
+
+    this.menuService.getMenusForDataTable(params).subscribe(data => {
       console.log(data)
       this.menus = data.data.data;
       this.totalRecords = data.data.totalRecords;
