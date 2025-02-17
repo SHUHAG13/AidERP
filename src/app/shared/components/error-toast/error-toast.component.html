@@ -1,0 +1,25 @@
+<!-- toaster for error list showing -->
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer">
+    <div 
+      class="toast" 
+      role="alert" 
+      aria-live="assertive" 
+      aria-atomic="true" 
+      [ngClass]="{ 'show': isVisable }" 
+      *ngIf="toastErrors.length">
+      <div class="toast-header text-danger">
+        <strong class="me-auto">Error</strong>
+        <button
+          type="button"
+          class="btn-close btn-close-black"
+          aria-label="Close"
+          (click)="hideToast()">
+        </button>
+      </div>
+      <div class="toast-body">
+        <ul class="text-danger mb-0">
+          <li *ngFor="let error of toastErrors">{{ error }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
