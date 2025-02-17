@@ -1,4 +1,4 @@
-import { Component, inject, NO_ERRORS_SCHEMA, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { Component, inject, OnInit, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { MenuListDTO } from '../../../../core/SecurityAdministration/menu/menu.model';
 import { MenuService } from '../../../../services/SecurityAdministration/menu/menu.service';
 import { CommonModule } from '@angular/common';
@@ -12,11 +12,14 @@ import Swal from 'sweetalert2';
 import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
 import { Common } from '../../../../shared/library/common';
 
+import { Dialog } from 'primeng/dialog';
+import { ErrorToastComponent } from '../../../../shared/components/error-toast/error-toast.component';
+
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,NgSelectModule,FormsModule,FilterPipe],
+  imports: [CommonModule,ReactiveFormsModule,NgSelectModule,FormsModule,FilterPipe,Dialog,ErrorToastComponent],
   templateUrl: './menu.component.html',
   styleUrl: './menu.component.scss'
 })
@@ -27,6 +30,7 @@ export class MenuComponent implements OnInit{
   formData!: FormGroup;
   submitted = false;
   isEdit = false;
+  isDialogVisible: boolean = false;
   searchText: string = "";
 
   private menuService = inject(MenuService);
@@ -40,18 +44,13 @@ export class MenuComponent implements OnInit{
     this.getAllMenus();
     this.getAllModule();
 
-    this.formData = this.formBuilder.group({
-      id: [''],
-      moduleId: ['',[Validators.required]],
-      menuName: ['',[Validators.required]],
-      shortName: [''],
-      description: [''],
-      url: ['',[Validators.required]],
-      iconUrl: [''],
-      parentMenuId: [''],
-      order: ['',[Validators.required]]
-    })
+    this.resetForm();
   }
+
+  showDialog() {
+    this.resetForm();
+    this.isDialogVisible = true;
+}
 
   getAllMenus(){
     this.menuService.getAllMenus().subscribe({
@@ -73,17 +72,20 @@ export class MenuComponent implements OnInit{
     })
   }
 
-    /**
-   * Open modal
-    // param content modal content
-   */
-    openModal(content: TemplateRef<any>) {
-      this.modalService.open(content,{
-        size:'xl',
-        backdrop: 'static',  // Prevent closing the modal by clicking outside
-        keyboard: false,  // Prevent closing the modal with the Esc key
-      });
-    }
+  resetForm(){
+    this.formData = this.formBuilder.group({
+      id: [''],
+      moduleId: ['',[Validators.required]],
+      menuName: ['',[Validators.required]],
+      shortName: [''],
+      description: [''],
+      url: ['',[Validators.required]],
+      iconUrl: [''],
+      parentMenuId: [null],
+      order: ['',[Validators.required]]
+    })
+  }
+
     get form() {
       return this.formData.controls;
     }
@@ -97,6 +99,7 @@ export class MenuComponent implements OnInit{
 
       // If valid, handle successful form submission
       this.showToast = false;
+      this.isDialogVisible = false;
 
       const model = {
         Id: this.formData.value.id,
@@ -154,6 +157,7 @@ export class MenuComponent implements OnInit{
     toastErrors: string[] = [];
 
     displayValidationErrors() {
+      
       this.toastErrors = [];
 
       if (this.form['moduleId'].errors?.['required']) {
@@ -177,13 +181,8 @@ export class MenuComponent implements OnInit{
       // }, 8000);
     }
 
-    // Hide the toast
-    hideToast() {
-      this.showToast = false;
-    }
-
     // edit menu
-    editMenu(id: any, content: TemplateRef<any>) {
+    editMenu(id: any) {
       this.isEdit = true;
       this.menuService.getMenuById(id).subscribe({
         next: (res: CustomResponse) => {
@@ -204,8 +203,8 @@ export class MenuComponent implements OnInit{
               order: menu.slNo
             });
     
-            // Open the modal after data is patched
-            this.openModal(content);
+            // Open the dialog after data is patched
+            this.isDialogVisible = true;
           } else {
             console.warn('Failed to fetch menu data:', res.message);
             Swal.fire('Error!', 'Failed to fetch menu data.', 'error');
