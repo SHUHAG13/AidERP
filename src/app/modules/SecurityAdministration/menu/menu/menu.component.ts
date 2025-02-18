@@ -14,6 +14,7 @@ import { Common } from '../../../../shared/library/common';
 
 import { Dialog } from 'primeng/dialog';
 import { ErrorToastComponent } from '../../../../shared/components/error-toast/error-toast.component';
+import { SweetalertService } from '../../../../services/common/sweetalert.service';
 
 
 @Component({
@@ -36,7 +37,8 @@ export class MenuComponent implements OnInit{
   private menuService = inject(MenuService);
   private moduleService = inject(ModuleService);
   private formBuilder = inject(FormBuilder);
-  private modalService = inject(NgbModal)
+  private modalService = inject(NgbModal);
+  private sweetAlertService = inject(SweetalertService);
 
   ngOnInit(): void {
 
@@ -219,58 +221,37 @@ export class MenuComponent implements OnInit{
 
     // sweet alert
     confirmAdd(data : any){
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#34c38f',
-        cancelButtonColor: '#f46a6a',
-        confirmButtonText: 'Yes, add it!'
-      }).then(result => {
-        if (result.isConfirmed) {
+      this.sweetAlertService.confirmation('add')
+        .then((confirmed)=>{
+          if(confirmed){
             this.addMenu(data);
           }
-      });
+        })
     }
 
     confirmUpdate(data : any){
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#34c38f',
-        cancelButtonColor: '#f46a6a',
-        confirmButtonText: 'Yes, update it!'
-      }).then(result => {
-        if (result.isConfirmed) {
+      this.sweetAlertService.confirmation('update')
+        .then((confirmed)=>{
+          if(confirmed){
             this.updateMenu(data);
           }
-      });
+        })
     }
 
     confirmDelete(id : any) {
-      Swal.fire({
-        title: 'Are you sure?',
-        text: 'You won\'t be able to revert this!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#34c38f',
-        cancelButtonColor: '#f46a6a',
-        confirmButtonText: 'Yes, delete it!'
-      }).then(result => {
-        if (result.isConfirmed) {
-          this.menuService.deleteMenu(id).subscribe({
-            next : (res:CustomResponse) =>{
-              if(res.success){
-                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-              }
-            },
-            error : e => console.warn(e)
-          })
-        }
-      });
+      this.sweetAlertService.confirmation('delete')
+        .then((confirmed)=>{
+          if(confirmed){
+            this.menuService.deleteMenu(id).subscribe({
+              next : (res:CustomResponse) =>{
+                if(res.success){
+                  Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+                }
+              },
+              error : e => console.warn(e)
+            })
+          }
+        })
     }
 
     // for menu sort
