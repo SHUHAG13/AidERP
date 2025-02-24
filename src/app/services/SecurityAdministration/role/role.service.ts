@@ -12,4 +12,20 @@ export class RoleService {
   getAllRoles(){
     return this.masterSevice.get<CustomResponse>('Role/Getall');
   }
+
+  getRoleById(id : any){
+    return this.masterSevice.get<CustomResponse>(`Role/GetById?id=${id}`)
+  }
+  
+  addRole(role : any){
+    return this.masterSevice.post<CustomResponse>('Role/Add',role);
+  }
+
+  updateRole(role : any){
+    return this.masterSevice.put<CustomResponse>('Role/Update',role);
+  }
+
+  deleteRole(id: any){
+    return this.masterSevice.put<CustomResponse>('Role/Delete',id);
+  }
 }
