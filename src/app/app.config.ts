@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, RouterModule } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';  // Loader for loading translation files
@@ -14,14 +14,11 @@ import Aura from '@primeng/themes/aura';
 import Lara from '@primeng/themes/lara';
 import Material from '@primeng/themes/material';
 import Nora from '@primeng/themes/nora';
+import { authInterceptor } from './interceptor/auth.interceptor';
 
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
-}
-
-export function tokenGetter(){
-return localStorage.getItem('token');
 }
 
 export const appConfig: ApplicationConfig = {
@@ -40,14 +37,13 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       JwtModule.forRoot({
         config: {
-          tokenGetter: tokenGetter,
           allowedDomains: [],
           disallowedRoutes: [],
         },
       })
     ),
     provideHttpClient(
-      withInterceptorsFromDi()
+      withInterceptors([authInterceptor])
     ),
     provideAnimationsAsync(),
     providePrimeNG({ 
