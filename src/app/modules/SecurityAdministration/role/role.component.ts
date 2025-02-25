@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { RoleService } from '../../../services/SecurityAdministration/role/role.service';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -43,6 +43,10 @@ export class RoleComponent implements OnInit{
     this.loadRoles();
     this.loadTenants();
     this.resetForm();
+  }
+
+  clear(table: Table) {
+    table.clear();
   }
 
   loadRoles(){
@@ -228,6 +232,7 @@ export class RoleComponent implements OnInit{
             next : (res:CustomResponse) =>{
               if(res.success){
                 Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+                this.ngOnInit(); // Refresh the role list
               }
             },
             error : e => {
