@@ -9,16 +9,17 @@
         [globalFilterFields]="['roleName','description']" 
         >
       <ng-template #caption>
-        <div class="flex justify-between">
-            <p-button label="New" icon="pi pi-plus" class="mr-2" (onClick)="showDialog()" />
+        <div class="d-flex justify-content-between">
             <p-iconfield iconPosition="left">
                 <p-inputicon>
                     <i class="pi pi-search"></i>
                 </p-inputicon>
                 <input pSize="small" pInputText type="text" (keydown.enter)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
             </p-iconfield>
+            <p-button label="New" icon="pi pi-plus" size="small" class="mr-2" (onClick)="showDialog()" />
         </div>
       </ng-template>
+
       <ng-template #header >
           <tr>
             <th>#ID</th>
