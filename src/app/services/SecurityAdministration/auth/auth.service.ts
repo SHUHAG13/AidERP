@@ -40,6 +40,7 @@ export class AuthService {
   }
 
   getAuthStatus(): boolean {
+    console.log(this.isAuthenticated)
     return this.isAuthenticated()
   }
 
@@ -60,10 +61,10 @@ export class AuthService {
       const refreshToken: any = localStorage.getItem('refreshToken');
       if (!jwt || !refreshToken) { return false; }
 
-      const credentials = JSON.stringify({
+      const credentials = {
         accessToken: jwt,
         refreshToken: refreshToken,
-      });
+      };
 
       let isRefreshSuccess: boolean;
 
