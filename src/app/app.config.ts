@@ -1,7 +1,7 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter} from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';  // Loader for loading translation files
@@ -12,6 +12,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { authInterceptor } from './interceptor/auth.interceptor';
+import { loadingInterceptor } from './interceptor/loading.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 export function createTranslateLoader(http: HttpClient): any {
@@ -45,8 +47,10 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideHttpClient(
-      withInterceptors([authInterceptor])
+      withInterceptors([authInterceptor,loadingInterceptor])
     ),
+    //{ provide: HTTP_INTERCEPTORS, useClass: loadingInterceptor, multi: true },
+    importProvidersFrom(NgxSpinnerModule.forRoot()),
     provideAnimationsAsync(),
     providePrimeNG({ 
         theme: {
