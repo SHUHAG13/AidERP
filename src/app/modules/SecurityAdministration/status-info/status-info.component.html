@@ -1,0 +1,99 @@
+<div class="card">
+    <p-table 
+        #dt1 
+        [value]="statusInfos" 
+        [paginator]="true" 
+        [rows]="5" 
+        [totalRecords]="totalRecords" 
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [globalFilterFields]="['name']" 
+        >
+      <ng-template #caption>
+        <div class="d-flex justify-content-between">
+            <p-iconfield iconPosition="left">
+                <p-inputicon>
+                    <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input pSize="small" pInputText type="text" (keydown.enter)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
+            </p-iconfield>
+            <p-button label="New" icon="pi pi-plus" size="small" class="mr-2" (onClick)="showDialog()" />
+        </div>
+      </ng-template>
+
+      <ng-template #header >
+          <tr>
+            <th>#ID</th>
+            <th pSortableColumn="name" style="width:20%">Name <p-sortIcon field="name" /></th>
+            <th>CreatedBy</th>
+            <th>CreatedOn</th>
+            <th>UpdatedBy</th>
+            <th>UpdatedOn</th>
+            <th>--Action--</th>
+          </tr>
+      </ng-template>
+      <ng-template #body let-role>
+          <tr>
+            <td> {{role.id}} </td>
+            <td> {{role.name}} </td>
+            <td> {{role.createdBy}} </td>
+            <td> {{role.createdOn | date}} </td>
+            <td> {{role.updatedBy}} </td>
+            <td> {{role.updatedOn | date}} </td>
+            <td>
+                <button class="btn btn-sm btn-warning me-2" (click)="editStatusInfo(role.id)" ><i class="bx bxs-pencil"></i></button>
+                <button class="btn btn-sm btn-danger" (click)="confirmDelete(role.id)"><i class="bx bxs-trash"></i></button> 
+            </td>
+          </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  
+<!-- PrimeNG Modal -->
+<p-dialog header="Add Status Info" [modal]="true" [(visible)]="isDialogVisible" position="top" [style]="{width: '60vw', height: 'auto'}">
+    <form (ngSubmit)="saveStatusInfo()" [formGroup]="formData">
+      <div class="row">
+        @if(isEdit){
+          <input type="hidden"  formControlName="id">
+        }
+
+        <div class="col-md-4 col-sm-12">
+            <div class="row">
+                <div class="col-4"><label style="padding-top: 3px;">ID<span style="font-weight: bold; color: red;">*</span></label></div>
+                <div class="col-8">
+                  <input class="form-control inputHeight" placeholder="Enter Id" type="text" autocomplete="off" formControlName="id"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                  [ngClass]="{'is-invalid': submitted && form['id'].errors}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Name<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Name" type="text" autocomplete="off" formControlName="name"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                [ngClass]="{'is-invalid': submitted && form['name'].errors}" />
+              </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-12 mt-3">
+        <div class="d-flex justify-content-end">
+          @if(isEdit){
+          <button type="submit" class="btn btn-success btn-sm" id="btn-save-event">Update</button>
+          }@else {
+            <button type="submit" class="btn btn-success btn-sm" id="btn-save-event">Save</button>
+          }
+        </div>
+      </div>
+     </form>
+  </p-dialog>
+  
+    <!-- toaster for error list showing -->
+    <app-error-toast [toastErrors]="toastErrors" [showToast]="showToast"></app-error-toast>
+
+
+ 
