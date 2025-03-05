@@ -1,32 +1,30 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { RoleService } from '../../../services/SecurityAdministration/role/role.service';
-import { Table, TableModule } from 'primeng/table';
-import { InputTextModule } from 'primeng/inputtext';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { CommonModule } from '@angular/common';
-import { RoleDTO } from '../../../core/SecurityAdministration/role/roleDTO.model';
-import { ButtonModule } from 'primeng/button';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SweetalertService } from '../../../services/common/sweetalert.service';
-import Swal from 'sweetalert2';
-import { CustomResponse } from '../../../core/common/response';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 import { ErrorToastComponent } from '../../../shared/components/error-toast/error-toast.component';
 import { Dialog } from 'primeng/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { TenantService } from '../../../services/SecurityAdministration/tenant/tenant.service';
-import { TenantDTO } from '../../../core/SecurityAdministration/Tenant/tenantDTO.model';
+import { StatusInfoDTO } from '../../../core/SecurityAdministration/statusInfo/statusInfo.model';
+import { SweetalertService } from '../../../services/common/sweetalert.service';
+import { StatusInfoService } from '../../../services/SecurityAdministration/statusInfo/status-info.service';
+import { CustomResponse } from '../../../core/common/response';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-role',
+  selector: 'app-status-info',
   standalone: true,
-  imports: [TableModule,InputTextModule,IconFieldModule,InputIconModule,CommonModule,ButtonModule,ReactiveFormsModule,ErrorToastComponent,Dialog,NgSelectModule],
-  templateUrl: './role.component.html'
+  imports: [CommonModule,TableModule,InputTextModule,IconFieldModule,InputIconModule,ButtonModule,ReactiveFormsModule,ErrorToastComponent,Dialog,NgSelectModule],
+  templateUrl: './status-info.component.html'
 })
-export class RoleComponent implements OnInit{
-  roles : RoleDTO[] = [];
-  tenants: TenantDTO[] = [];
+export class StatusInfoComponent implements OnInit{
+
+  statusInfos : StatusInfoDTO[] = [];
   totalRecords : number = 0;
   formData!: FormGroup;
   submitted : boolean = false;
@@ -34,35 +32,21 @@ export class RoleComponent implements OnInit{
   isDialogVisible: boolean = false;
 
   private formBuilder = inject(FormBuilder);
-  private modalService = inject(NgbModal);
   private sweetAlertService = inject(SweetalertService);
-  private tenantService = inject(TenantService)
-  constructor(private roleService : RoleService){}
+  private modalService = inject(NgbModal);
+  private statusInfoService = inject(StatusInfoService);
 
   ngOnInit(): void {
-    this.loadRoles();
-    this.loadTenants();
+    this.loadStatusInfos();
     this.resetForm();
   }
 
-  clear(table: Table) {
-    table.clear();
-  }
-
-  loadRoles(){
-    this.roleService.getAllRoles().subscribe({
-      next : res => this.roles = res.data,
+  loadStatusInfos(){
+    this.statusInfoService.getAllStatusInfos().subscribe({
+      next : res => this.statusInfos = res.data,
       error : err => console.error(err)
     })
   }
-
-  loadTenants(){
-    this.tenantService.getAllTenants().subscribe({
-      next : res => this.tenants = res.data,
-      error : e => console.warn(e)
-    })
-  }
-
 
   showDialog() {
     this.resetForm();
@@ -72,11 +56,8 @@ export class RoleComponent implements OnInit{
 
   resetForm(){
     this.formData = this.formBuilder.group({
-      id: [''],
-      tenantId: [''],
-      roleName: ['',[Validators.required]],
-      roleRank: ['',[Validators.required]],
-      description: ['']
+      id: ['',[Validators.required]],
+      name: ['',[Validators.required]]
     })
   }
 
@@ -85,7 +66,7 @@ export class RoleComponent implements OnInit{
   }
 
   // save
-  saveRole(){
+  saveStatusInfo(){
     this.submitted = true;
       
       if (this.formData.invalid) {
@@ -99,11 +80,9 @@ export class RoleComponent implements OnInit{
 
       const model = {
         Id: this.formData.value.id,
-        TenantId: this.formData.value.tenantId,
-        RoleName: this.formData.value.roleName,
-        RoleRank: this.formData.value.roleRank,
-        Description: this.formData.value.description
+        name: this.formData.value.name
       }
+
       if(this.isEdit){
         this.confirmUpdate(model);
       }else{
@@ -118,13 +97,13 @@ export class RoleComponent implements OnInit{
   displayValidationErrors() {
     
     this.toastErrors = [];
+    if (this.form['id'].errors?.['required']) {
+      this.toastErrors.push('Status ID is required.');
+    }
+    if (this.form['name'].errors?.['required']) {
+      this.toastErrors.push('Status Name is required.');
+    }
 
-    if (this.form['roleName'].errors?.['required']) {
-      this.toastErrors.push('Role Name is required.');
-    }
-    if (this.form['roleRank'].errors?.['required']) {
-      this.toastErrors.push('Role Rank is required.');
-    }
 
     this.showToast = true;
 
@@ -139,21 +118,21 @@ export class RoleComponent implements OnInit{
     this.sweetAlertService.confirmation('add')
       .then((confirmed)=>{
         if(confirmed){
-          this.addRole(data);
+          this.addStatusInfo(data);
         }
       })
   }
 
-  addRole(model : any){
-    this.roleService.addRole(model).subscribe({
+  addStatusInfo(model : any){
+    this.statusInfoService.addStatusInfo(model).subscribe({
       next : (res : CustomResponse) => {
         console.log(res)
         if (res.success) {
           this.modalService.dismissAll(); // Close the modal
-          Swal.fire('Added!', 'Your role has been added.', 'success')
-          this.ngOnInit(); // Refresh the role list
+          Swal.fire('Added!', 'Your status has been added.', 'success')
+          this.ngOnInit(); // Refresh the status infos list
         } else {
-          console.warn('Role addition failed:', res.message);
+          console.warn('Status Info addition failed:', res.message);
           Swal.fire(res.message, res.data, 'warning')
         }
       },
@@ -164,28 +143,25 @@ export class RoleComponent implements OnInit{
     })
   }
 
-  // edit role
-  editRole(id: any) {
+
+  // edit status info
+  editStatusInfo(id: any) {
     this.isEdit = true;
-    this.roleService.getRoleById(id).subscribe({
+    this.statusInfoService.getStatusInfoById(id).subscribe({
       next: (res: CustomResponse) => {
-        console.log(res.data)
         if (res.success) {
-          const role = res.data;
+          const statusInfo = res.data;
   
           // Patch the form with the fetched data
           this.formData.patchValue({
-            id: role.id,
-            tenantId: role.tenantId,
-            roleName: role.roleName,
-            roleRank: role.roleRank,
-            description: role.description
+            id: statusInfo.id,
+            name: statusInfo.name
           });
   
           // Open the dialog after data is patched
           this.isDialogVisible = true;
         } else {
-          console.warn('Failed to fetch role data:', res.message);
+          console.warn('Failed to fetch status info data:', res.message);
           Swal.fire(res.message, res.data, 'warning');
         }
       },
@@ -200,21 +176,20 @@ export class RoleComponent implements OnInit{
     this.sweetAlertService.confirmation('update')
       .then((confirmed)=>{
         if(confirmed){
-          this.updateRole(data);
+          this.updateStatusInfo(data);
         }
       })
   }
 
-  updateRole(model : any){
-    this.roleService.updateRole(model).subscribe({
+  updateStatusInfo(model : any){
+    this.statusInfoService.updateStatusInfo(model).subscribe({
       next : (res : CustomResponse) => {
-        console.log(res)
         if (res.success) {
           this.modalService.dismissAll(); // Close the modal
-          Swal.fire('Updated!', 'Your role has been updated.', 'success')
-          this.ngOnInit(); // Refresh the role list
+          Swal.fire('Updated!', 'Your status info has been updated.', 'success')
+          this.ngOnInit(); // Refresh the status info list
         } else {
-          console.warn('Role updating failed:', res.message);
+          console.warn('Status info updating failed:', res.message);
           Swal.fire(res.message, res.data, 'warning');
         }
       },
@@ -229,11 +204,11 @@ export class RoleComponent implements OnInit{
     this.sweetAlertService.confirmation('delete')
       .then((confirmed)=>{
         if(confirmed){
-          this.roleService.deleteRole(id).subscribe({
+          this.statusInfoService.deleteStatusInfo(id).subscribe({
             next : (res:CustomResponse) =>{
               if(res.success){
-                Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
-                this.ngOnInit(); // Refresh the role list
+                Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+                this.ngOnInit(); // Refresh the status info list
               }
             },
             error : e => {
@@ -244,4 +219,5 @@ export class RoleComponent implements OnInit{
         }
       })
   }
+
 }

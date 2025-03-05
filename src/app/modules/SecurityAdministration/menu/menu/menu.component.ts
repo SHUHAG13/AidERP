@@ -15,14 +15,18 @@ import { Common } from '../../../../shared/library/common';
 import { Dialog } from 'primeng/dialog';
 import { ErrorToastComponent } from '../../../../shared/components/error-toast/error-toast.component';
 import { SweetalertService } from '../../../../services/common/sweetalert.service';
+import { TableModule } from 'primeng/table';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputIconModule } from 'primeng/inputicon';
+import { ButtonModule } from 'primeng/button';
 
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,NgSelectModule,FormsModule,FilterPipe,Dialog,ErrorToastComponent],
-  templateUrl: './menu.component.html',
-  styleUrl: './menu.component.scss'
+  imports: [CommonModule,ReactiveFormsModule,NgSelectModule,ButtonModule,FormsModule,FilterPipe,Dialog,ErrorToastComponent,TableModule,IconFieldModule,InputTextModule,InputIconModule],
+  templateUrl: './menu.component.html'
 })
 export class MenuComponent implements OnInit{
 
@@ -32,7 +36,7 @@ export class MenuComponent implements OnInit{
   submitted = false;
   isEdit = false;
   isDialogVisible: boolean = false;
-  searchText: string = "";
+  totalRecords: number = 0;
 
   private menuService = inject(MenuService);
   private moduleService = inject(ModuleService);
@@ -43,7 +47,7 @@ export class MenuComponent implements OnInit{
   ngOnInit(): void {
 
     this.isEdit = false;
-    this.getAllMenus();
+    this.loadMenus({first:0,rows:5})
     this.getAllModule();
 
     this.resetForm();
@@ -51,17 +55,29 @@ export class MenuComponent implements OnInit{
 
   showDialog() {
     this.resetForm();
+    this.isEdit = false;
     this.isDialogVisible = true;
-}
+  }
 
-  getAllMenus(){
-    this.menuService.getAllMenus().subscribe({
-      next : (res : any) =>{
-        this.menuList = res.data;
-        console.log(this.menuList);
-      },
-      error : e => console.log(e)
-    })
+  loadMenus(event: any) {
+    console.log(event)
+    const first = event.first; // First record index (start of current page)
+    const rows = event.rows;   // Number of rows per page (e.g., 5, 10, 20)
+    const pageNumber = Math.floor(first / rows); // Calculate the zero-based page number
+    const searchValue = event.globalFilter;
+
+    const params = {
+      PageNumber: pageNumber,
+      PageSize: rows,
+      SearchValue: searchValue
+    };
+
+    this.menuService.getMenusForDataTable(params).subscribe(data => {
+      console.log(data)
+      this.menuList = data.data.data;
+      this.totalRecords = data.data.totalRecords;
+      console.log(this.totalRecords)
+    });
   }
 
   getAllModule(){
