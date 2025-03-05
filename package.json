@@ -40,6 +40,7 @@
     "ngx-lightbox": "^2.4.0",
     "ngx-owl-carousel": "^2.0.7",
     "ngx-owl-carousel-o": "^18.0.0",
+    "ngx-spinner": "^18.0.0",
     "ngx-ui-switch": "^15.0.0",
     "owl.carousel": "^2.3.4",
     "primeicons": "^7.0.0",

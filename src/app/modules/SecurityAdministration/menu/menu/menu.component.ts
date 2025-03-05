@@ -9,7 +9,6 @@ import { ModuleDTO } from '../../../../core/SecurityAdministration/module/module
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CustomResponse } from '../../../../core/common/response';
 import Swal from 'sweetalert2';
-import { FilterPipe } from '../../../../shared/pipes/filter.pipe';
 import { Common } from '../../../../shared/library/common';
 
 import { Dialog } from 'primeng/dialog';
@@ -20,16 +19,29 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputIconModule } from 'primeng/inputicon';
 import { ButtonModule } from 'primeng/button';
+import { PageTitleComponent } from '../../../../shared/components/pagetitle/page-title.component';
 
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,NgSelectModule,ButtonModule,FormsModule,FilterPipe,Dialog,ErrorToastComponent,TableModule,IconFieldModule,InputTextModule,InputIconModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    ButtonModule,FormsModule,
+    Dialog,
+    ErrorToastComponent,
+    TableModule,
+    IconFieldModule,
+    InputTextModule,
+    InputIconModule,
+    PageTitleComponent
+  ],
   templateUrl: './menu.component.html'
 })
 export class MenuComponent implements OnInit{
-
+  breadCrumbItems!: Array<{}>;
   menuList: MenuListDTO[] = []
   moduleList: ModuleDTO[] = []
   formData!: FormGroup;
@@ -45,7 +57,7 @@ export class MenuComponent implements OnInit{
   private sweetAlertService = inject(SweetalertService);
 
   ngOnInit(): void {
-
+    this.breadCrumbItems = [{ label: 'Security Administration' }, { label: 'Menu', active: true }];
     this.isEdit = false;
     this.loadMenus({first:0,rows:5})
     this.getAllModule();

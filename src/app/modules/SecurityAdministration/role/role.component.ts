@@ -17,14 +17,28 @@ import { Dialog } from 'primeng/dialog';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TenantService } from '../../../services/SecurityAdministration/tenant/tenant.service';
 import { TenantDTO } from '../../../core/SecurityAdministration/Tenant/tenantDTO.model';
+import { PageTitleComponent } from '../../../shared/components/pagetitle/page-title.component';
 
 @Component({
   selector: 'app-role',
   standalone: true,
-  imports: [TableModule,InputTextModule,IconFieldModule,InputIconModule,CommonModule,ButtonModule,ReactiveFormsModule,ErrorToastComponent,Dialog,NgSelectModule],
+  imports: [
+    TableModule,
+    InputTextModule,
+    IconFieldModule,
+    InputIconModule,
+    CommonModule,
+    ButtonModule,
+    ReactiveFormsModule,
+    ErrorToastComponent,
+    Dialog,
+    NgSelectModule,
+    PageTitleComponent
+  ],
   templateUrl: './role.component.html'
 })
 export class RoleComponent implements OnInit{
+  breadCrumbItems!: Array<{}>;
   roles : RoleDTO[] = [];
   tenants: TenantDTO[] = [];
   totalRecords : number = 0;
@@ -40,6 +54,7 @@ export class RoleComponent implements OnInit{
   constructor(private roleService : RoleService){}
 
   ngOnInit(): void {
+    this.breadCrumbItems = [{ label: 'Security Administration' }, { label: 'Role', active: true }];
     this.loadRoles();
     this.loadTenants();
     this.resetForm();

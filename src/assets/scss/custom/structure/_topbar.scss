@@ -101,7 +101,7 @@
 }
 
 .page-content {
-    padding: calc(#{$header-height} + 5px) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
+    padding: calc(#{$header-height} + 8px) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
 }
 
 .header-item {
@@ -276,7 +276,7 @@ body[data-layout="horizontal"] {
     }
     .page-content {
         margin-top: $header-height;
-        padding: calc(55px) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
+        padding: calc(63px) calc(#{$grid-gutter-width} / 2) $footer-height calc(#{$grid-gutter-width} / 2);
     }    
 }
 
