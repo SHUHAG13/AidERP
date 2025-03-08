@@ -1,0 +1,197 @@
+<app-page-title title="Role List" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+<div class="card">
+    <p-table 
+        #dt1 
+        [value]="userWiseModuleMenuRoutes" 
+        [paginator]="true" 
+        [rows]="5" 
+        [totalRecords]="totalRecords" 
+        [rowsPerPageOptions]="[5, 10, 20]"
+        [globalFilterFields]="['moduleName','menuName']" 
+        >
+      <ng-template #caption>
+        <div class="d-flex justify-content-between">
+            <p-iconfield iconPosition="left">
+                <p-inputicon>
+                    <i class="pi pi-search"></i>
+                </p-inputicon>
+                <input pSize="small" pInputText type="text" (keydown.enter)="dt1.filterGlobal($any($event.target).value, 'contains')" placeholder="Global Search" />
+            </p-iconfield>
+            <p-button label="New" icon="pi pi-plus" size="small" class="mr-2" (onClick)="showDialog()" />
+        </div>
+      </ng-template>
+
+      <ng-template #header >
+          <tr>
+            <th>#ID</th>
+            <th>UserID</th>
+            <th>ModuleID</th>
+            <th pSortableColumn="moduleName" style="width:20%">Module Name <p-sortIcon field="moduleName" /></th>
+            <th>ModuleSLNO</th>
+            <th>MenuID</th>
+            <th pSortableColumn="menuName" style="width: 20%;">MenuName <p-sortIcon field="moduleName"/></th>
+            <th>MenuSLNO</th>
+            <th>RouteID</th>
+            <th>CreatedBy</th>
+            <th>CreatedOn</th>
+            <th>UpdatedBy</th>
+            <th>UpdatedOn</th>
+            <th>Status</th>
+            <th>--Action--</th>
+          </tr>
+      </ng-template>
+      <ng-template #body let-model>
+          <tr>
+            <td> {{model.id}} </td>
+            <td> {{model.userId}} </td>
+            <td> {{model.moduleId}} </td>
+            <td> {{model.moduleName}} </td>
+            <td> {{model.moduleSLNo}} </td>
+            <td> {{model.menuId}} </td>
+            <td> {{model.menuName}} </td>
+            <td> {{model.menuSLNo}} </td>
+            <td> {{model.routeId}} </td>
+            <td> {{model.createdBy}} </td>
+            <td> {{model.createdOn | date}} </td>
+            <td> {{model.updatedBy}} </td>
+            <td> {{model.updatedOn | date}} </td>
+            <td> {{model.status}} </td>
+            <td>
+                <button class="btn btn-sm btn-warning me-2" (click)="editUserWiseModuleMenuRouteMapping(model.id)" ><i class="bx bxs-pencil"></i></button>
+                <button class="btn btn-sm btn-danger" (click)="confirmDelete(model.id)"><i class="bx bxs-trash"></i></button> 
+            </td>
+          </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  
+<!-- PrimeNG Modal -->
+<p-dialog header="Add User Wise Module Menu Route" [modal]="true" [(visible)]="isDialogVisible" position="top" [style]="{width: '60vw', height: 'auto'}">
+    <form (ngSubmit)="saveUserWiseModuleMenuRouteMapping()" [formGroup]="formData">
+      <div class="row">
+        @if(isEdit){
+          <input type="hidden"  formControlName="id">
+        }
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">User</label></div>
+              <div class="col-8">
+                <ng-select
+                  class="custom-ng-select"
+                  [ngClass]="{'is-invalid': submitted && form['userId'].errors}"
+                  [items]="users" 
+                  bindLabel="name" 
+                  bindValue="id" 
+                  formControlName="userId"
+                  [searchable]="true"
+                  >
+                </ng-select>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="row">
+                <div class="col-4"><label style="padding-top: 3px;">Module</label></div>
+                <div class="col-8">
+                  <ng-select
+                    class="custom-ng-select"
+                    [ngClass]="{'is-invalid': submitted && form['moduleId'].errors}"
+                    [items]="modules" 
+                    bindLabel="name" 
+                    bindValue="id" 
+                    formControlName="moduleId"
+                    [searchable]="true"
+                    >
+                  </ng-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Module Name<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Module Name" type="text" autocomplete="off" formControlName="moduleName"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                [ngClass]="{'is-invalid': submitted && form['moduleName'].errors}" />
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <div class="row">
+                <div class="col-4"><label style="padding-top: 3px;">Module SL<span style="font-weight: bold; color: red;">*</span></label></div>
+                <div class="col-8">
+                  <input class="form-control inputHeight" placeholder="Enter Module SL No." type="text" autocomplete="off" formControlName="moduleSlNo"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                  [ngClass]="{'is-invalid': submitted && form['moduleSlNo'].errors}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <div class="row">
+                <div class="col-4"><label style="padding-top: 3px;">Menu</label></div>
+                <div class="col-8">
+                  <ng-select
+                    class="custom-ng-select"
+                    [ngClass]="{'is-invalid': submitted && form['menuId'].errors}"
+                    [items]="menus" 
+                    bindLabel="name" 
+                    bindValue="id" 
+                    formControlName="menuId"
+                    [searchable]="true"
+                    >
+                  </ng-select>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Menu Name<span style="font-weight: bold; color: red;">*</span></label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Menu Name" type="text" autocomplete="off" formControlName="menuName"
+                data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                [ngClass]="{'is-invalid': submitted && form['menuName'].errors}" />
+              </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <div class="row">
+                <div class="col-4"><label style="padding-top: 3px;">Menu SL<span style="font-weight: bold; color: red;">*</span></label></div>
+                <div class="col-8">
+                  <input class="form-control inputHeight" placeholder="Enter Menu SL No." type="text" autocomplete="off" formControlName="menuSlNo"
+                  data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"
+                  [ngClass]="{'is-invalid': submitted && form['menuSlNo'].errors}" />
+                </div>
+            </div>
+        </div>
+  
+        <div class="col-md-4 col-sm-12">
+          <div class="row">
+              <div class="col-4"><label style="padding-top: 3px;">Route ID</label></div>
+              <div class="col-8">
+                <input class="form-control inputHeight" placeholder="Enter Route ID" type="number" autocomplete="off" formControlName="routeId"
+                [ngClass]="{'is-invalid': submitted && form['routeId'].errors}" />
+              </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-12 mt-3">
+        <div class="d-flex justify-content-end">
+          @if(isEdit){
+          <button type="submit" class="btn btn-success btn-sm" id="btn-save-event">Update</button>
+          }@else {
+            <button type="submit" class="btn btn-success btn-sm" id="btn-save-event">Save</button>
+          }
+        </div>
+      </div>
+     </form>
+  </p-dialog>
+  
+    <!-- toaster for error list showing -->
+    <app-error-toast [toastErrors]="toastErrors" [showToast]="showToast"></app-error-toast>
