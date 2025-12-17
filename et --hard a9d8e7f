@@ -1,0 +1,77 @@
+[33mfbd7466[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m update Angular 18 to 19
+[33m2cd7dfc[m[33m ([m[1;31morigin/main[m[33m)[m before update from18
+[33mdd7e58d[m[33m ([m[1;31morigin/dev[m[33m)[m Merged PR 65: UserWiseModuleMenuRouteMapping CRUD
+[33m5e4bba1[m[33m ([m[1;31morigin/DataTable[m[33m)[m UserWiseModuleMenuRouteMapping CRUD
+[33m99467a4[m Merged PR 62: module CRUD
+[33mf4a99b3[m module CRUD
+[33m5aa5621[m Merged PR 61: implement breadcrumb page-title.component.html
+[33mb4f22b0[m implement breadcrumb page-title.component.html
+[33m3f08af3[m Merged PR 60: status info crud and menu datatable updated
+[33m1643bb7[m status info crud and menu datatable updated
+[33m4435a84[m Merged PR 58: Globally Loader Add via interceptor
+[33mb9a2f7b[m[33m ([m[1;31morigin/LoaderImplement[m[33m)[m Globally Loader Add via interceptor
+[33mf6aa91e[m Merged PR 56: implement interceptor properly
+[33meecc994[m implement interceptor properly
+[33m44f93a8[m Merged PR 55: interceptor implement
+[33m1a6c9ec[m interceptor implement
+[33m21c171c[m Merged PR 54: update role crud
+[33m9d5b22a[m update role crud
+[33m15cf6de[m Merged PR 52: Role CRUD
+[33mbc8eb7e[m Role CRUD
+[33mc282e28[m Merged PR 49: Common Sweetalert Confirmation service for add,update,delete confirm
+[33m4675ecd[m Common Sweetalert Confirmation service for add,update,delete confirm
+[33m161df18[m Merged PR 47: change bootstrap modal to primeNG dialog box for FORM and for error massage s...
+[33m9064f5b[m change bootstrap modal to primeNG dialog box for FORM and for error massage showing create a shared component toast
+[33mf3d3358[m Merged PR 46: update
+[33mafe0049[m datatable update
+[33mde702a1[m Merge branch 'dev' of https://dev.azure.com/LPLMaster/AidERP_UI/_git/AidERP_UI into DataTable
+[33mff0149d[m datatable update
+[33mdfda8d2[m[33m ([m[1;31morigin/MenuItemUpdate[m[33m)[m data table update
+[33mce810da[m Merged PR 44: now run without any warning and error
+[33m2d7dccb[m now run without any warning and error
+[33m5adb24e[m Merged PR 41: DataTable
+[33m186ed80[m update datatable primeNG
+[33ma84a680[m implement search sort and pagination in PrimeNG DataTable
+[33m9dd48b7[m for datatable
+[33m140aacb[m Merged PR 39: update menuList getting service
+[33mb3e5aed[m update menuList getting service
+[33mf65ef03[m Merged PR 38: separate every module routing
+[33m34ab0e2[m[33m ([m[1;31morigin/mehediStructureSetup[m[33m)[m separate every module routing
+[33mdc12d91[m Merged PR 37: update structure
+[33m3f90778[m update structure
+[33mb58b0b0[m Merged PR 36: implement arraySorting method by column name in common.ts for whole application
+[33m5e52c6e[m implement arraySorting method by column name in common.ts for whole application
+[33m2e5b335[m Merged PR 34: passwordPipe.pipe.ts
+[33m29c2e29[m[33m ([m[1;31morigin/UserCrud[m[33m)[m passwordPipe.pipe.ts
+[33m87977b6[m Merged PR 33: pipe maintain
+[33m44c6417[m pipe maintain
+[33m21b1a88[m Merged PR 32: frontend adjustment
+[33me464b65[m Merge branch 'dev' of https://dev.azure.com/LPLMaster/AidERP_UI/_git/AidERP_UI into UserCrud
+[33m5017f2c[m modify common.ts
+[33m136203f[m frontend adjustment
+[33m4c9dae7[m Merged PR 31: add search filter for full application and some structural change when user n...
+[33m8389c05[m add search filter for full application and some structural change when user not loged in or unauthorize user only see login page. when login then user see full application layout.
+[33m94b929f[m Merged PR 29: User Crud
+[33m49673b7[m user final crud
+[33m44ecb77[m delete
+[33m03a385c[m Merge branch 'dev' of https://dev.azure.com/LPLMaster/AidERP_UI/_git/AidERP_UI into UserCrud
+[33m86706fc[m user crud
+[33m91a4536[m Merged PR 27: menuCrud
+[33m00b3994[m menuCrud
+[33m4f74f44[m Merged PR 26: all error message showing toastr
+[33m236440a[m all error message showing toastr
+[33m535b138[m Merged PR 24: project structure setup and menu crud ui develop
+[33m2bfae35[m ng-select width customize
+[33m78a26a3[m project structure setup and menu crud ui develop
+[33m6cd7d30[m Merged PR 23: setup project structure
+[33mfbea6cc[m setup project structure
+[33mb01635b[m setup environment for production and development
+[33mef319b9[m menu configuration complete for horizontaltopbar
+[33mf9c18d7[m sidebar menu setup completed
+[33m428bbc4[m jwt with refresh token complete
+[33m37755c6[m added error pages
+[33mb5afb64[m re arrange some method
+[33m100842f[m introduce @auth0/angular-jwt
+[33ma7196e4[m reverse logo to theme default logo
+[33me5f5b11[m setup project architecture
+[33mf7d374b[m initial commit
